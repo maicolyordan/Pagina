@@ -1,0 +1,15 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #1e2833; /* Azul oscuro */
+    color: #fff; /* Texto blanco */
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    color: #fff;
+}
+
+p {
+    color: #ccc;
+}
