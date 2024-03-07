@@ -1,14 +1,76 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ejemplo de HTML con CSS externo</title>
+    <title>RADIO CRISTIANA</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Contenido HTML -->
-    <h1>¡Hola, mundo!</h1>
-    <p>Este es un ejemplo de HTML con CSS externo.</p>
+
+<h1>Imágenes y Reproductores de Radio</h1>
+
+<!-- Primer bloque -->
+<div class="container">
+    <img src="https://static.mytuner.mobi/media/tvos_radios/5Qs5RCF9qU.jpg" alt="Imagen 1" width="100" onclick="toggleAudio('audio1')">
+    <br>
+    <div id="audio1" class="audio-container">
+        <audio id="radio1" controls>
+            <source src="https://tampa.audio-stream.com/proxy/bethelra?mp=/stream" type="audio/mpeg">
+            Tu navegador no soporta el elemento de audio.
+        </audio>
+    </div>
+</div>
+
+<!-- Segundo bloque -->
+<div class="container">
+    <img src="https://cdn.webrad.io/images/logos/radios-com-bo/bbn-radio.png" alt="Imagen 2" width="100" onclick="toggleAudio('audio2')">
+    <br>
+    <div id="audio2" class="audio-container">
+        <audio id="radio2" controls>
+            <source src="https://audio-edge-5bkfj.fra.h.radiomast.io/475ebed1-595e-4717-b888-64fe8fc6b09f" type="audio/mpeg">
+            Tu navegador no soporta el elemento de audio.
+        </audio>
+    </div>
+</div>
+
+<!-- Tercer bloque -->
+<div class="container">
+    <img src="https://cdn.webrad.io/images/logos/radios-com-bo/el-sonido-de-vida.png" alt="Imagen 3" width="100" onclick="toggleAudio('audio3')">
+    <br>
+    <div id="audio3" class="audio-container">
+        <audio id="radio3" controls>
+            <source src="https://stream-160.zeno.fm/c4z6tu9gqeruv?zs=m7oxDOC3Sd6oR562saA2jg" type="audio/mpeg">
+            Tu navegador no soporta el elemento de audio.
+        </audio>
+    </div>
+</div>
+
+<!-- Cuarto bloque -->
+<div class="container">
+    <img src="https://cdn.webrad.io/images/logos/radios-com-bo/jhv-fm-oruro.png" alt="Imagen 4" width="100" onclick="toggleAudio('audio4')">
+    <br>
+    <div id="audio4" class="audio-container">
+        <audio id="radio4" controls>
+            <source src="https://ares.disfrutaenlared.com/9898/stream/1/" type="audio/mpeg">
+            Tu navegador no soporta el elemento de audio.
+        </audio>
+    </div>
+</div>
+
+<!-- Quinto bloque -->
+<div class="container">
+    <img src="https://cdn.webrad.io/images/logos/radios-com-bo/lvc.png" alt="Imagen 5" width="100" onclick="toggleAudio('audio5')">
+    <br>
+    <div id="audio5" class="audio-container">
+        <audio id="radio5" controls>
+            <source src="https://autodj.live/listen/lvc/live" type="audio/mpeg">
+            Tu navegador no soporta el elemento de audio.
+        </audio>
+    </div>
+</div>
+
+<script src="script.js"></script>
+
 </body>
 </html>
