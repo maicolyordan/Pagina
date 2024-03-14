@@ -1,11 +1,35 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Narakeet - Lector en línea de texto en castellano</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redireccionamiento después de 6 segundos</title>
+    <style>
+        #imageContainer {
+            display: none;
+            text-align: center;
+        }
+        #imageContainer img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+    </style>
 </head>
 <body>
-<a href="https://www.narakeet.com/languages/lector-online-da-texto-en-castellano/" target="_blank" rel="noreferrer">Ir al lector en línea de texto en castellano</a>
+    <div id="imageContainer">
+        <img src="https://i.pinimg.com/236x/ef/ca/55/efca55ce6e910108987f0d2aea0bfe88.jpg" alt="Imagen" id="image">
+    </div>
+
+    <script>
+        // Mostrar la imagen durante 6 segundos
+        setTimeout(function() {
+            document.getElementById('imageContainer').style.display = 'block';
+        }, 6000);
+
+        // Redirigir a la página de navegación después de 6 segundos
+        setTimeout(function() {
+            window.location.href = 'https://editor.livegap.com/index.php?lan=es#fid=9wfxts2iux255&pid=apq7hoi0p9255';
+        }, 12000); // 6 segundos para mostrar la imagen + 6 segundos adicionales
+    </script>
 </body>
 </html>
