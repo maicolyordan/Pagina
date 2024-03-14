@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redireccionamiento después de 6 segundos</title>
+    <title>Navegador con Imagen</title>
     <style>
         #imageContainer {
             display: none;
@@ -17,7 +17,7 @@
 </head>
 <body>
     <div id="imageContainer">
-        <img src="https://i.pinimg.com/236x/ef/ca/55/efca55ce6e910108987f0d2aea0bfe88.jpg" alt="Imagen" id="image">
+        <img src="https://i.pinimg.com/236x/ef/ca/55/efca55ce6e910108987f0d2aea0bfe88.jpg" alt="Imagen">
     </div>
 
     <script>
@@ -26,10 +26,10 @@
             document.getElementById('imageContainer').style.display = 'block';
         }, 6000);
 
-        // Redirigir a la página de navegación después de 6 segundos
+        // Redirigir al LiveGap Editor después de 12 segundos (6 segundos para la imagen + 6 segundos adicionales)
         setTimeout(function() {
             window.location.href = 'https://editor.livegap.com/index.php?lan=es#fid=9wfxts2iux255&pid=apq7hoi0p9255';
-        }, 12000); // 6 segundos para mostrar la imagen + 6 segundos adicionales
+        }, 12000);
     </script>
 </body>
 </html>
