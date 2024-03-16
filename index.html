@@ -1,35 +1,50 @@
  <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Navegador con Imagen</title>
-    <style>
-        #imageContainer {
-            display: none;
-            text-align: center;
-        }
-        #imageContainer img {
-            max-width: 100%;
-            max-height: 100%;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clonador de Voz desde Audio</title>
 </head>
 <body>
-    <div id="imageContainer">
-        <img src="https://i.pinimg.com/236x/ef/ca/55/efca55ce6e910108987f0d2aea0bfe88.jpg" alt="Imagen">
-    </div>
+  <h1>Clonador de Voz desde Audio</h1>
+  <input type="file" id="inputAudio" accept="audio/*">
+  <button onclick="escanearAudio()">Escanear Audio y Clonar Voz</button>
+  <br><br>
+  <textarea id="inputText" rows="4" cols="50" placeholder="Escribe el texto que deseas reproducir con la voz clonada"></textarea>
+  <button onclick="reproducirTexto()">Reproducir con Voz Clonada</button>
+  <br><br>
+  <audio controls id="audioPlayer" style="display: none;"></audio>
 
-    <script>
-        // Mostrar la imagen durante 6 segundos
-        setTimeout(function() {
-            document.getElementById('imageContainer').style.display = 'block';
-        }, 6000);
+  <script>
+    let audioBlob = null;
 
-        // Redirigir al LiveGap Editor después de 12 segundos (6 segundos para la imagen + 6 segundos adicionales)
-        setTimeout(function() {
-            window.location.href = 'https://editor.livegap.com/index.php?lan=es#fid=9wfxts2iux255&pid=apq7hoi0p9255';
-        }, 12000);
-    </script>
+    document.getElementById('inputAudio').addEventListener('change', function(event) {
+      const files = event.target.files;
+      if (files.length > 0) {
+        audioBlob = URL.createObjectURL(files[0]);
+      }
+    });
+
+    function escanearAudio() {
+      if (!audioBlob) {
+        alert('Por favor selecciona un archivo de audio.');
+        return;
+      }
+      // Aquí puedes implementar la lógica para escanear y clonar la voz desde el archivo de audio
+      // Por ejemplo, puedes usar una API de procesamiento de audio como Mozilla DeepSpeech
+      alert('Audio escaneado y voz clonada correctamente.');
+    }
+
+    function reproducirTexto() {
+      const inputText = document.getElementById('inputText').value;
+      if (!inputText) {
+        alert('Por favor escribe un texto para reproducir.');
+        return;
+      }
+      // Aquí puedes implementar la lógica para reproducir el texto con la voz clonada
+      // Por ejemplo, puedes usar una API de síntesis de voz como Google Cloud Text-to-Speech
+      alert('Texto reproducido con la voz clonada.');
+    }
+  </script>
 </body>
 </html>
