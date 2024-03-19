@@ -6,19 +6,24 @@
 <title>Reproductor de Video</title>
 </head>
 <body>
+  <h1></h1>
   <video id="videoPlayer" controls autoplay>
     <source src="https://vcp.myplaytv.com/moviefe/moviefe/playlist.m3u8" type="application/x-mpegURL">
+    <!-- Si el archivo no es m3u8, usa este enlace para mp4 -->
+    <!-- <source src="tu_archivo.mp4" type="video/mp4"> -->
     Tu navegador no soporta la reproducción de videos.
   </video>
 
   <script>
-    var video = document.getElementById("videoPlayer");
-    video.removeAttribute("controls"); // Elimina los controles de reproducción
-
-    // Para asegurarte de que el video se reproduzca automáticamente en algunos navegadores
-    document.addEventListener("DOMContentLoaded", function() {
-      video.play();
-    });
+    // Puedes eliminar la función playPause() ya que el video se reproducirá automáticamente
+    // var video = document.getElementById("videoPlayer");
+    // function playPause() {
+    //   if (video.paused) {
+    //     video.play();
+    //   } else {
+    //     video.pause();
+    //   }
+    // }
   </script>
 </body>
 </html>
