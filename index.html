@@ -1,50 +1,54 @@
  <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Clonador de Voz desde Audio</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CINEMA</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+        #browser {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        #image-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999; /* asegura que el contenedor se muestre encima de todo */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #loading-text {
+            position: absolute;
+            color: white;
+            font-size: 24px;
+        }
+    </style>
 </head>
 <body>
-  <h1>Clonador de Voz desde Audio</h1>
-  <input type="file" id="inputAudio" accept="audio/*">
-  <button onclick="escanearAudio()">Escanear Audio y Clonar Voz</button>
-  <br><br>
-  <textarea id="inputText" rows="4" cols="50" placeholder="Escribe el texto que deseas reproducir con la voz clonada"></textarea>
-  <button onclick="reproducirTexto()">Reproducir con Voz Clonada</button>
-  <br><br>
-  <audio controls id="audioPlayer" style="display: none;"></audio>
+    <div id="image-container">
+        <img id="image" src="https://es.web.img3.acsta.net/pictures/22/12/14/17/42/1424940.jpg" alt="Imagen de fondo">
+        <div id="loading-text">Cargando...</div>
+    </div>
 
-  <script>
-    let audioBlob = null;
+    <iframe id="browser" src=""></iframe>
 
-    document.getElementById('inputAudio').addEventListener('change', function(event) {
-      const files = event.target.files;
-      if (files.length > 0) {
-        audioBlob = URL.createObjectURL(files[0]);
-      }
-    });
-
-    function escanearAudio() {
-      if (!audioBlob) {
-        alert('Por favor selecciona un archivo de audio.');
-        return;
-      }
-      // Aquí puedes implementar la lógica para escanear y clonar la voz desde el archivo de audio
-      // Por ejemplo, puedes usar una API de procesamiento de audio como Mozilla DeepSpeech
-      alert('Audio escaneado y voz clonada correctamente.');
-    }
-
-    function reproducirTexto() {
-      const inputText = document.getElementById('inputText').value;
-      if (!inputText) {
-        alert('Por favor escribe un texto para reproducir.');
-        return;
-      }
-      // Aquí puedes implementar la lógica para reproducir el texto con la voz clonada
-      // Por ejemplo, puedes usar una API de síntesis de voz como Google Cloud Text-to-Speech
-      alert('Texto reproducido con la voz clonada.');
-    }
-  </script>
+    <script>
+        // Mostrar la imagen y el texto de carga por 10 segundos
+        document.getElementById('image-container').style.display = 'flex';
+        setTimeout(function() {
+            document.getElementById('image-container').style.display = 'none';
+            // Cambiar la URL del iframe después de 10 segundos
+            document.getElementById('browser').src = 'https://www.facebook.com/profile.php?id=61552643274561&mibextid=rS40aB7S9Ucbxw6v';
+        }, 5000); // 5 segundos en milisegundos
+    </script>
 </body>
 </html>
