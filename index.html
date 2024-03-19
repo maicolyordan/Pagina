@@ -1,54 +1,32 @@
- <!DOCTYPE html>
-<html lang="es">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CINEMA</title>
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-        }
-        #browser {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        #image-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 9999; /* asegura que el contenedor se muestre encima de todo */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        #loading-text {
-            position: absolute;
-            color: white;
-            font-size: 24px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reproductor de Video</title>
 </head>
 <body>
-    <div id="image-container">
-        <img id="image" src="https://es.web.img3.acsta.net/pictures/22/12/14/17/42/1424940.jpg" alt="Imagen de fondo">
-        <div id="loading-text">Cargando...</div>
-    </div>
+  <h1>Reproductor de Video</h1>
+  <video id="videoPlayer" controls>
+    <source src="https://vcp.myplaytv.com/moviefe/moviefe/playlist.m3u8
+" type="application/x-mpegURL">
+    <!-- Si el archivo no es m3u8, usa este enlace para mp4 -->
+    <!-- <source src="tu_archivo.mp4" type="video/mp4"> -->
+    Tu navegador no soporta la reproducción de videos.
+  </video>
+  <br>
+  <button onclick="playPause()">Reproducir/Pausar</button>
 
-    <iframe id="browser" src=""></iframe>
+  <script>
+    var video = document.getElementById("videoPlayer");
 
-    <script>
-        // Mostrar la imagen y el texto de carga por 10 segundos
-        document.getElementById('image-container').style.display = 'flex';
-        setTimeout(function() {
-            document.getElementById('image-container').style.display = 'none';
-            // Cambiar la URL del iframe después de 10 segundos
-            document.getElementById('browser').src = 'https://www.facebook.com/profile.php?id=61552643274561&mibextid=rS40aB7S9Ucbxw6v';
-        }, 5000); // 5 segundos en milisegundos
-    </script>
+    function playPause() {
+      if (video.paused) {
+        video.play();
+      } else {
+        video.pause();
+      }
+    }
+  </script>
 </body>
 </html>
