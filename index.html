@@ -1,124 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
+ <!DOCTYPE html>
+<html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IPTV Horizontal</title>
-<style>
-    body {
-        margin: 0;
-        padding: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        background-color: #f0f0f0;
-    }
-
-    .iptv-container {
-        display: grid;
-        grid-template-columns: repeat(6, 1fr);
-        gap: 10px;
-        max-width: 100%;
-    }
-
-    .channel {
-        width: 100%;
-        height: 100px;
-        background-color: #333;
-        color: #fff;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        font-size: 16px;
-        padding: 10px;
-        border-radius: 5px;
-    }
-
-    .channel img {
-        max-width: 80%;
-        max-height: 80px;
-        margin-bottom: 10px;
-    }
-
-    .channel-name {
-        text-align: center;
-    }
-</style>
+<title>Reproductor IPTV</title>
 </head>
-<body>
-<div class="iptv-container" id="iptv-container">
-    <!-- Canales se agregarán aquí dinámicamente -->
-</div>
-
-<!-- Input para cargar el archivo M3U -->
-<input type="file" id="fileInput" accept=".m3u" onchange="cargarDesdeArchivo(event)">
-<!-- URL de la lista M3U -->
-<input type="text" id="urlInput" placeholder="Introduce la URL de la lista M3U">
-<button onclick="cargarDesdeURL()">Cargar desde URL</button>
+<body style="background-color: darkblue;">
+<div id="player"></div>
 
 <script>
-    // Función para cargar los canales desde un archivo M3U
-    function cargarDesdeArchivo(event) {
-        const file = event.target.files[0];
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const m3uText = e.target.result;
-            procesarM3U(m3uText);
-        };
-        reader.readAsText(file);
-    }
+document.addEventListener("DOMContentLoaded", function() {
+  var m3u8URL = obtenerURL(); // Función para obtener la URL m3u8
+  var player = document.getElementById("player");
+  if (m3u8URL) {
+    var videoTag = '<video controls autoplay><source src="' + m3u8URL + '" type="application/x-mpegURL"></video>';
+    player.innerHTML = videoTag;
+  } else {
+    player.innerHTML = '<p>Error al cargar el video.</p>';
+  }
+});
 
-    // Función para cargar los canales desde una URL de la lista M3U
-    async function cargarDesdeURL() {
-        const m3uURL = document.getElementById('urlInput').value;
-        try {
-            const response = await fetch(m3uURL);
-            const m3uText = await response.text();
-            procesarM3U(m3uText);
-        } catch (error) {
-            console.error('Error al cargar la lista M3U desde la URL:', error);
-        }
-    }
-
-    // Función para procesar la lista M3U y agregar los canales correspondientes
-    function procesarM3U(m3uText) {
-        const lines = m3uText.split('\n');
-        const iptvContainer = document.getElementById('iptv-container');
-        iptvContainer.innerHTML = ''; // Limpiar el contenedor antes de agregar nuevos canales
-        lines.forEach(line => {
-            if (line.startsWith('#EXTINF')) {
-                const channelInfo = obtenerInfoCanal(line);
-                if (channelInfo) {
-                    const channelDiv = document.createElement('div');
-                    channelDiv.classList.add('channel');
-                    const channelLogo = document.createElement('img');
-                    channelLogo.src = channelInfo.logo;
-                    channelLogo.alt = channelInfo.nombre;
-                    channelDiv.appendChild(channelLogo);
-                    const channelName = document.createElement('div');
-                    channelName.classList.add('channel-name');
-                    channelName.textContent = channelInfo.nombre;
-                    channelDiv.appendChild(channelName);
-                    iptvContainer.appendChild(channelDiv);
-                }
-            }
-        });
-    }
-
-    // Función para obtener la información del canal (nombre y logo) de la línea #EXTINF
-    function obtenerInfoCanal(line) {
-        const regexInfo = /tvg-logo="([^"]+)".+,(.+)/;
-        const match = line.match(regexInfo);
-        if (match && match.length === 3) {
-            return {
-                logo: match[1],
-                nombre: match[2]
-            };
-        }
-        return null;
-    }
+function obtenerURL() {
+  // Aquí puedes implementar la lógica para obtener la URL m3u8 de forma dinámica
+  // Por ejemplo, desde un servidor o base de datos
+  return 'https://vcp.myplaytv.com/moviefe/moviefe/playlist.m3u8'; // Reemplaza 'URL_DE_TU_VIDEO_M3U8' con la URL real
+}
 </script>
 </body>
 </html>
