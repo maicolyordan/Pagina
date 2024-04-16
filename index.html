@@ -1,30 +1,121 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Reproductor IPTV</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navegador Browser</title>
+    <style>
+        body {
+            /* No se define ningún color de fondo */
+        }
+
+        #boton {
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: black; /* Color de fondo negro */
+            color: white; /* Texto blanco */
+            padding: 10px;
+            border: 1px solid black;
+            cursor: pointer;
+            width: 50px; /* Tamaño cuadrado */
+            height: 20px; /* Tamaño cuadrado */
+            line-height: 17px;
+            text-align: center;
+            font-size: 20px;
+        }
+
+        #boton_cerrar {
+            display: none;
+            background-color: black; /* Color de fondo negro */
+            color: white; /* Texto blanco */
+            padding: 10px;
+            border: 1px solid black;
+            cursor: pointer;
+            width: 50px; /* Tamaño cuadrado */
+            height: 20px; /* Tamaño cuadrado */
+            line-height: 17px;
+            text-align: center;
+            font-size: 20px;
+        }
+
+        .navegador {
+            display: none;
+            width: 100%;
+            height: calc(100% - 40px); /* Ajustar altura según necesidad */
+            border: none;
+        }
+
+        .boton {
+            margin: 10px;
+            background-color: #008CBA; /* Color de fondo azul */
+            color: white; /* Texto blanco */
+            border: none; /* Sin borde */
+            padding: 15px 30px; /* Padding ajustado para hacer más grande el botón */
+            cursor: pointer;
+            font-size: 16px; /* Tamaño de fuente ajustado */
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+    </style>
 </head>
-<body style="background-color: darkblue;">
-<div id="player"></div>
+<body>
+
+<div id="boton" onclick="mostrarBotones()">MENU</div>
+<div id="boton_cerrar" onclick="cerrarBotones()">❌</div>
+
+<div id="botones">
+    <div class="fila">
+        <button class="boton" onclick="mostrarNavegador('https://tesoroscristianos.co/peliculas-cristianas/')">PELICULAS CRISTIANAS</button>
+        <button class="boton" onclick="mostrarNavegador('https://www.wikipedia.org/')">Wikipedia</button>
+    </div>
+    <div class="fila">
+        <button class="boton" onclick="mostrarNavegador('https://www.bing.com/')">Bing</button>
+    </div>
+</div>
+
+<iframe id="navegadorGoogle" class="navegador" src="https://tesoroscristianos.co/peliculas-cristianas/" frameborder="0"></iframe>
+<iframe id="navegadorWikipedia" class="navegador" src="https://www.wikipedia.org/" frameborder="0"></iframe>
+<iframe id="navegadorBing" class="navegador" src="https://www.bing.com/" frameborder="0"></iframe>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-  var m3u8URL = obtenerURL(); // Función para obtener la URL m3u8
-  var player = document.getElementById("player");
-  if (m3u8URL) {
-    var videoTag = '<video controls autoplay><source src="' + m3u8URL + '" type="application/x-mpegURL"></video>';
-    player.innerHTML = videoTag;
-  } else {
-    player.innerHTML = '<p>Error al cargar el video.</p>';
-  }
-});
+    function mostrarBotones() {
+        var botonesDiv = document.getElementById("botones");
+        var botonCerrar = document.getElementById("boton_cerrar");
+        var botonMenu = document.getElementById("boton");
+        botonesDiv.style.display = "block";
+        botonCerrar.style.display = "block";
+        botonMenu.style.display = "none";
+    }
 
-function obtenerURL() {
-  // Aquí puedes implementar la lógica para obtener la URL m3u8 de forma dinámica
-  // Por ejemplo, desde un servidor o base de datos
-  return 'https://vcp.myplaytv.com/moviefe/moviefe/playlist.m3u8'; // Reemplaza 'URL_DE_TU_VIDEO_M3U8' con la URL real
-}
+    function cerrarBotones() {
+        var botonesDiv = document.getElementById("botones");
+        var botonCerrar = document.getElementById("boton_cerrar");
+        var botonMenu = document.getElementById("boton");
+        botonesDiv.style.display = "none";
+        botonCerrar.style.display = "none";
+        botonMenu.style.display = "block";
+    }
+
+    function mostrarNavegador(url) {
+        var navegadores = document.getElementsByClassName("navegador");
+        for (var i = 0; i < navegadores.length; i++) {
+            navegadores[i].style.display = "none"; // Oculta todos los navegadores
+        }
+        // Muestra el navegador correspondiente al botón clicleado
+        if (url === 'https://tesoroscristianos.co/peliculas-cristianas/') {
+            document.getElementById("navegadorGoogle").style.display = "block";
+        } else if (url === 'https://www.wikipedia.org/') {
+            document.getElementById("navegadorWikipedia").style.display = "block";
+        } else if (url === 'https://www.bing.com/') {
+            document.getElementById("navegadorBing").style.display = "block";
+        }
+    }
 </script>
+
 </body>
 </html>
