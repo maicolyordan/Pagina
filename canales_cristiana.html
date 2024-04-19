@@ -1,1 +1,169 @@
-.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CANALES CRISTIANA</title>
+<link href="https://vjs.zencdn.net/7.15.4/video-js.css" rel="stylesheet">
+<script src="https://vjs.zencdn.net/7.15.4/video.min.js"></script>
+<style>
+    body {
+        background-color: #1a1a2e; /* Azul oscuro */
+        color: white;
+        font-family: Arial, sans-serif;
+    }
+    .container {
+        padding: 20px;
+        border-radius: 10px;
+        background-color: #112;
+        margin-bottom: 20px;
+        cursor: pointer; /* Agregado para que el cursor cambie al pasar por encima */
+    }
+    .video-container {
+        display: none; /* Ocultar el contenedor de video inicialmente */
+    }
+    .video-player {
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+</style>
+</head>
+<body>
+
+<h1 style="text-align: center;">CANALES CRISTIANA</h1>
+
+<!-- Primer bloque -->
+<div class="container" onclick="showVideo('video1')">
+    <img src="http://imgfz.com/i/iznX5FU.jpeg" alt="Imagen 1" width="100">
+</div>
+<div id="video1" class="video-container">
+    <video id="video-player1" class="video-player video-js vjs-default-skin" controls preload="auto" data-setup='{"fluid": true}'>
+        <source src="https://vcp.myplaytv.com/moviefe/moviefe/playlist.m3u8" type="application/x-mpegURL">
+        Tu navegador no soporta el elemento de video.
+    </video>
+</div>
+
+<!-- Segundo bloque -->
+<div class="container" onclick="showVideo('video2')">
+    <img src="http://imgfz.com/i/iznX5FU.jpeg" alt="Imagen 2" width="100">
+</div>
+<div id="video2" class="video-container">
+    <video id="video-player2" class="video-player video-js vjs-default-skin" controls preload="auto" data-setup='{"fluid": true}'>
+        <source src="https://s2.abntelevision.com/avivamientohd/avivamientohd/chunks.m3u8" type="application/x-mpegURL">
+        Tu navegador no soporta el elemento de video.
+    </video>
+</div>
+
+<!-- Tercer bloque -->
+<div class="container" onclick="showVideo('video3')">
+    <img src="http://imgfz.com/i/iznX5FU.jpeg" alt="Imagen 3" width="100">
+</div>
+<div id="video3" class="video-container">
+    <video id="video-player3" class="video-player video-js vjs-default-skin" controls preload="auto" data-setup='{"fluid": true}'>
+        <source src="https://59825a54e4454.streamlock.net:8443/marcos536/marcos536/chunklist_w1895988385.m3u8" type="application/x-mpegURL">
+        Tu navegador no soporta el elemento de video.
+    </video>
+</div>
+
+<!-- Cuarto bloque -->
+<div class="container" onclick="showVideo('video4')">
+    <img src="http://imgfz.com/i/iznX5FU.jpeg" alt="Imagen 4" width="100">
+</div>
+<div id="video4" class="video-container">
+    <video id="video-player4" class="video-player video-js vjs-default-skin" controls preload="auto" data-setup='{"fluid": true}'>
+        <source src="https://3abn-live.akamaized.net/hls/live/2010547-b/Latino/HQs/chunklist.m3u8" type="application/x-mpegURL">
+        Tu navegador no soporta el elemento de video.
+    </video>
+</div>
+
+<!-- Quinto bloque -->
+<div class="container" onclick="showVideo('video5')">
+    <img src="http://imgfz.com/i/iznX5FU.jpeg" alt="Imagen 5" width="100">
+</div>
+<div id="video5" class="video-container">
+    <video id="video-player5" class="video-player video-js vjs-default-skin" controls preload="auto" data-setup='{"fluid": true}'>
+        <source src="https://emisoras.hn:8081/diostevetv/tracks-v1a1/mono.m3u8" type="application/x-mpegURL">
+        Tu navegador no soporta el elemento de video.
+    </video>
+</div>
+  
+<!-- 6 bloque -->
+<div class="container" onclick="showVideo('video1')">
+    <img src="http://imgfz.com/i/iznX5FU.jpeg" alt="Imagen 1" width="100">
+</div>
+<div id="video1" class="video-container">
+    <video id="video-player1" class="video-player video-js vjs-default-skin" controls preload="auto" data-setup='{"fluid": true}'>
+        <source src="https://5fd5567570c0e.streamlock.net/1708/stream/chunklist_w540048098.m3u8" type="application/x-mpegURL">
+        Tu navegador no soporta el elemento de video.
+    </video>
+</div>
+
+<!-- 7 bloque -->
+<div class="container" onclick="showVideo('video2')">
+    <img src="http://imgfz.com/i/iznX5FU.jpeg" alt="Imagen 2" width="100">
+</div>
+<div id="video2" class="video-container">
+    <video id="video-player2" class="video-player video-js vjs-default-skin" controls preload="auto" data-setup='{"fluid": true}'>
+        <source src="https://584097344c1f0.streamlock.net/48/_definst_/smil:48.smil/chunklist_w1607587787_b1564000_sleng.m3u8" type="application/x-mpegURL">
+        Tu navegador no soporta el elemento de video.
+    </video>
+</div>
+
+<!-- 8 bloque -->
+<div class="container" onclick="showVideo('video3')">
+    <img src="http://imgfz.com/i/iznX5FU.jpeg" alt="Imagen 3" width="100">
+</div>
+<div id="video3" class="video-container">
+    <video id="video-player3" class="video-player video-js vjs-default-skin" controls preload="auto" data-setup='{"fluid": true}'>
+        <source src="https://dacastmmd.mmdlive.lldns.net/dacastmmd/fafa592f5b7b4212928307608b85bdf7/chunklist_b4628000.m3u8" type="application/x-mpegURL">
+        Tu navegador no soporta el elemento de video.
+    </video>
+</div>
+
+<!-- 9 bloque -->
+<div class="container" onclick="showVideo('video4')">
+    <img src="http://imgfz.com/i/iznX5FU.jpeg" alt="Imagen 4" width="100">
+</div>
+<div id="video4" class="video-container">
+    <video id="video-player4" class="video-player video-js vjs-default-skin" controls preload="auto" data-setup='{"fluid": true}'>
+        <source src="https://emisoras.hn:8081/diostevetv/tracks-v1a1/mono.m3u8" type="application/x-mpegURL">
+        Tu navegador no soporta el elemento de video.
+    </video>
+</div>
+
+<!-- 10 bloque -->
+<div class="container" onclick="showVideo('video5')">
+    <img src="http://imgfz.com/i/iznX5FU.jpeg" alt="Imagen 5" width="100">
+</div>
+<div id="video5" class="video-container">
+    <video id="video-player5" class="video-player video-js vjs-default-skin" controls preload="auto" data-setup='{"fluid": true}'>
+        <source src="https://emisoras.hn:8081/diostevekids/tracks-v1a1/mono.m3u8" type="application/x-mpegURL">
+        Tu navegador no soporta el elemento de video.
+    </video>
+</div>
+
+<script>
+    function showVideo(videoId) {
+        // Ocultar todos los contenedores de video
+        var videoContainers = document.querySelectorAll('.video-container');
+        videoContainers.forEach(function(container) {
+            container.style.display = 'none';
+        });
+
+        // Mostrar el contenedor de video correspondiente al ID
+        var videoContainer = document.getElementById(videoId);
+        if (videoContainer) {
+            videoContainer.style.display = 'block';
+        }
+    }
+
+    // Inicializar reproductores de video
+    var players = document.querySelectorAll('.video-player');
+    for (var i = 0; i < players.length; i++) {
+        videojs(players[i]);
+    }
+</script>
+
+</body>
+</html>
