@@ -1,0 +1,57 @@
+ <!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Descargar y Guardar HTML</title>
+<style>
+    body {
+        background-color: #0e2a47; /* Azul oscuro */
+        color: white; /* Texto en blanco para mayor contraste */
+        font-family: Arial, sans-serif;
+        padding: 20px;
+    }
+</style>
+</head>
+<body>
+    <h1>Descargar y Guardar HTML</h1>
+    <label for="urlInput">Ingresa la URL de la página:</label>
+    <input type="url" id="urlInput" placeholder="https://www.ejemplo.com">
+    <button id="downloadButton">Descargar y Guardar HTML</button>
+
+    <script>
+        const urlInput = document.getElementById('urlInput');
+        const downloadButton = document.getElementById('downloadButton');
+
+        downloadButton.addEventListener('click', function() {
+            const url = urlInput.value;
+            fetch(url)
+                .then(response => response.text())
+                .then(data => {
+                    // Crear un blob con el HTML de la página
+                    const blob = new Blob([data], { type: 'text/html' });
+                    // Crear un objeto URL para el blob
+                    const urlBlob = URL.createObjectURL(blob);
+
+                    // Crear un elemento a para el enlace de descarga
+                    const a = document.createElement('a');
+                    a.href = urlBlob;
+                    a.download = 'pagina.html';
+                    document.body.appendChild(a);
+                    a.click();
+
+                    // Eliminar el elemento a después de la descarga
+                    document.body.removeChild(a);
+
+                    // Guardar el HTML en el almacenamiento interno (solo un ejemplo, no funcionará directamente)
+                    // Esto requeriría el uso de la API de Archivos o la API de Almacenamiento Web
+                    // Ejemplo básico que no funcionará debido a restricciones de seguridad y privacidad
+                    const file = new File([data], 'pagina.html', { type: 'text/html' });
+                    const fileUrl = URL.createObjectURL(file);
+                    localStorage.setItem('pagina_html_url', fileUrl);
+                })
+                .catch(error => console.error('Error al obtener el código HTML:', error));
+        });
+    </script>
+</body>
+</html>
