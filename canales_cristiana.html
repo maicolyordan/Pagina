@@ -31,8 +31,8 @@
             const htmlCode = htmlInput.value;
             // Codificar el código HTML para pasar como parámetro en la URL
             const encodedHtmlCode = encodeURIComponent(htmlCode);
-            // Redirigir al archivo de canales infantiles
-            window.location.href = `canales_infantiles.html`;
+            // Redirigir a la página de canales infantiles con el código HTML como parámetro
+            window.location.href = `canales_infantiles.html?html=${encodedHtmlCode}`;
         });
     </script>
 </body>
