@@ -1,0 +1,86 @@
+ <!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Juega Bad Piggies HD directamente desde Minijuegos en este navegador">
+    <title>Juegos</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        #loader {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://example.com/tu-imagen.jpg'); /* Reemplaza con la URL de la imagen que quieras mostrar */
+            background-size: cover;
+            background-position: center;
+            z-index: 9999;
+        }
+
+        #content {
+            display: none;
+            height: 100%;
+        }
+
+        iframe {
+            width: 100%;
+            height: calc(100% - 60px); /* Ajusta el iframe según el tamaño del header */
+            border: none;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+    </style>
+    <script>
+        // Espera 3 segundos y luego muestra el contenido del navegador
+        window.onload = function() {
+            setTimeout(function() {
+                document.getElementById('loader').style.display = 'none'; // Oculta la imagen
+                document.getElementById('content').style.display = 'block'; // Muestra el iframe y el contenido
+            }, 3000); // 3000 milisegundos = 3 segundos
+        };
+    </script>
+</head>
+<body>
+
+    <!-- Imagen de pantalla completa que se mostrará por 3 segundos -->
+    <div id="loader"></div>
+
+    <!-- Contenido que aparece después de los 3 segundos -->
+    <div id="content">
+        <header>
+            <h1>juegos para Jhasiel</h1>
+        </header>
+
+        <iframe src="https://www.minijuegos.com/juego/bad-piggies-hd" title="Bad Piggies HD"></iframe>
+
+        <footer>
+            <p>juega por un rato y despues as tu tarea</p>
+        </footer>
+    </div>
+
+</body>
+</html>
