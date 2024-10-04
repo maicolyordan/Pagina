@@ -3,84 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Juega Bad Piggies HD directamente desde Minijuegos en este navegador">
-    <title>Juegos</title>
+    <title>Walkie-Talkie Web</title>
     <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
+        body {
+            background-color: black;
+            color: white;
+            text-align: center;
             font-family: Arial, sans-serif;
-            overflow: hidden;
         }
-
-        #loader {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('https://i.ibb.co/F6Y7DNC/IMG-20240627-WA0028.jpg'); /* Reemplaza con la URL de la imagen que quieras mostrar */
-            background-size: cover;
-            background-position: center;
-            z-index: 9999;
-        }
-
-        #content {
-            display: none;
-            height: 100%;
-        }
-
-        iframe {
-            width: 100%;
-            height: calc(100% - 60px); /* Ajusta el iframe según el tamaño del header */
+        button {
+            background-color: green;
+            color: white;
             border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 10px;
         }
-
-        header {
-            background-color: #333;
-            color: white;
-            padding: 10px;
-            text-align: center;
-        }
-
-        footer {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 10px;
-            position: fixed;
-            width: 100%;
-            bottom: 0;
+        button:hover {
+            background-color: #28a745;
         }
     </style>
-    <script>
-        // Espera 3 segundos y luego muestra el contenido del navegador
-        window.onload = function() {
-            setTimeout(function() {
-                document.getElementById('loader').style.display = 'none'; // Oculta la imagen
-                document.getElementById('content').style.display = 'block'; // Muestra el iframe y el contenido
-            }, 3000); // 3000 milisegundos = 3 segundos
-        };
-    </script>
 </head>
 <body>
+    <h1>Comunicación Walkie-Talkie</h1>
+    <button id="startCall">Iniciar Comunicación</button>
+    <audio id="remoteAudio" autoplay></audio>
 
-    <!-- Imagen de pantalla completa que se mostrará por 3 segundos -->
-    <div id="loader"></div>
+    <script>
+        const startCallButton = document.getElementById('startCall');
+        const remoteAudio = document.getElementById('remoteAudio');
+        let localStream, peerConnection;
 
-    <!-- Contenido que aparece después de los 3 segundos -->
-    <div id="content">
-        <header>
-            <h1>juegos para Jhasiel</h1>
-        </header>
+        const config = {
+            iceServers: [
+                { urls: 'stun:stun.l.google.com:19302' }
+            ]
+        };
 
-        <iframe src="https://www.minijuegos.com/juego/bad-piggies-hd" title="Bad Piggies HD"></iframe>
+        async function startCall() {
+            localStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            peerConnection = new RTCPeerConnection(config);
 
-        <footer>
-            <p>juega por un rato y despues as tu tarea</p>
-        </footer>
-    </div>
+            localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
 
+            peerConnection.ontrack = event => {
+                remoteAudio.srcObject = event.streams[0];
+            };
+
+            // Lógica de señalización aquí (WebSocket o similar)
+        }
+
+        startCallButton.addEventListener('click', startCall);
+    </script>
 </body>
 </html>
