@@ -1,41 +1,33 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Tiendathh - Logo Oficial</title>
-    <meta name="description" content="Logo de Mi Tienda de Juguetes. Encuentra los mejores juguetes aquí.">
-    <meta property="og:image" content="https://tudominio.com/logo.png">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Mi Tienda de Juguetes - Logo Oficial">
-    <meta property="og:description" content="Logo de Mi Tienda de Juguetes, el mejor lugar para encontrar juguetes únicos y divertidos">
+    <title>Logo Vivo</title> <!-- Aquí puedes cambiar el título que aparecerá en la pestaña -->
     <style>
         body {
             display: flex;
             justify-content: center;
-            align-items: flex-start;
+            align-items: center;
             height: 100vh;
-            margin: 0;
             background-color: #f4f4f4;
-            padding-top: 50px;
+            margin: 0;
+            font-family: Arial, sans-serif;
         }
-        #logo {
-            max-width: 200px;
-            max-height: 200px;
+        img {
+            max-width: 100%;
+            height: auto;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
     </style>
-    <!-- Datos estructurados para el logo -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "Mi Tienda de Juguetes",
-        "url": "https://tudominio.com",
-        "logo": "https://tudominio.com/logo.png"
-    }
-    </script>
 </head>
 <body>
-    <img id="logo" src="https://tudominio.com/logo.png" alt="Logo de Mi Tienda de Juguetes">
+    <!-- Imagen del logo -->
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2d7bF1q2WBQnHUhqaR2OuxjFiv_EIWBwqow&s" alt="Logo Vivo">
 </body>
 </html>
