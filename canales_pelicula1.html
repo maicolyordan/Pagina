@@ -1,50 +1,31 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transmisión de Audio en Vivo</title>
+    <title>Logo de Mi Tienda</title>
+    <meta name="description" content="Logo de Mi Tienda de Juguetes">
+    <meta property="og:image" content="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2d7bF1q2WBQnHUhqaR2OuxjFiv_EIWBwqow&s">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Logo de Mi Tienda de Juguetes">
+    <meta property="og:description" content="Logo de Mi Tienda de Juguetes, el mejor lugar para encontrar juguetes únicos y divertidos">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin-top: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+            margin: 0;
+            background-color: #000000;
+            padding-top: 50px; /* Ajusta el espacio superior */
         }
-        #status {
-            font-size: 18px;
-            margin-bottom: 20px;
+        #logo {
+            max-width: 200px;
+            max-height: 200px;
         }
     </style>
 </head>
 <body>
-    <h1>Transmisión de Audio en Vivo</h1>
-    <p id="status">Esperando conexión...</p>
-    <audio id="liveAudio" autoplay></audio>
-
-    <script>
-        const statusElement = document.getElementById('status');
-        const liveAudio = document.getElementById('liveAudio');
-
-        async function startLiveStream() {
-            try {
-                // Obtener acceso al micrófono
-                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-
-                // Configurar el reproductor de audio
-                liveAudio.srcObject = stream;
-                statusElement.textContent = 'Conectado y transmitiendo...';
-
-                // Aquí podrías enviar el stream a un servidor para distribución en vivo
-                // Ejemplo: usar WebRTC o WebSockets para transmitir el audio
-
-            } catch (err) {
-                console.error('Error al acceder al micrófono: ', err);
-                statusElement.textContent = 'No se pudo acceder al micrófono.';
-            }
-        }
-
-        // Iniciar la transmisión cuando la página se cargue
-        window.onload = startLiveStream;
-    </script>
+    <img id="logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2d7bF1q2WBQnHUhqaR2OuxjFiv_EIWBwqow&s" alt="Logo de Mi Tienda de Juguetes">
 </body>
 </html>
