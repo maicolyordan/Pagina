@@ -1,0 +1,75 @@
+ <!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navegador con Contraseña</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #000;
+            color: #fff;
+        }
+        #login {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #iframe-container {
+            display: none;
+            width: 100%;
+            height: 100vh;
+            border: none;
+        }
+        input[type="password"], button {
+            padding: 10px;
+            margin: 5px;
+            font-size: 16px;
+        }
+        input[type="password"] {
+            background-color: #333;
+            color: #fff;
+            border: 1px solid #444;
+        }
+        button {
+            background-color: #ff0000;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #cc0000;
+        }
+    </style>
+</head>
+<body>
+
+<div id="login">
+    <h2>Introduce la contraseña</h2>
+    <input type="password" id="password" placeholder="Contraseña">
+    <button onclick="verificarContraseña()">Entrar</button>
+</div>
+
+<iframe id="iframe-container" src="https://apuestonvip.com/" allowfullscreen></iframe>
+
+<script>
+    function verificarContraseña() {
+        const password = document.getElementById("password").value;
+        const passwordCorrecta = "1234"; // Contraseña establecida
+
+        if (password === passwordCorrecta) {
+            document.getElementById("login").style.display = "none";
+            document.getElementById("iframe-container").style.display = "block";
+        } else {
+            alert("Contraseña incorrecta. Inténtalo de nuevo.");
+        }
+    }
+</script>
+
+</body>
+</html>
