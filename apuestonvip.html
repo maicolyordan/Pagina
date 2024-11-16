@@ -3,73 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Navegador con Contraseña</title>
+    <title>APUESTA VIP</title>
     <style>
         body {
+            background-color: black;
+            color: white;
             font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #000;
-            color: #fff;
-        }
-        #login {
             display: flex;
             flex-direction: column;
             align-items: center;
-        }
-        #iframe-container {
-            display: none;
-            width: 100%;
+            justify-content: center;
             height: 100vh;
-            border: none;
-        }
-        input[type="password"], button {
-            padding: 10px;
-            margin: 5px;
-            font-size: 16px;
+            margin: 0;
         }
         input[type="password"] {
-            background-color: #333;
-            color: #fff;
-            border: 1px solid #444;
+            padding: 10px;
+            font-size: 16px;
+            margin: 10px 0;
         }
         button {
-            background-color: #ff0000;
-            color: #fff;
+            background-color: red;
+            color: white;
             border: none;
+            padding: 10px 20px;
+            font-size: 16px;
             cursor: pointer;
         }
         button:hover {
-            background-color: #cc0000;
+            opacity: 0.9;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
         }
     </style>
+    <script>
+        function verificarContraseña() {
+            const contraseña = document.getElementById("contraseña").value;
+            const mensajeError = document.getElementById("error");
+
+            if (contraseña === "1234") {
+                window.location.href = "https://apuestonvip.com/auth/3m9kOI";
+            } else {
+                mensajeError.textContent = "Contraseña incorrecta. Inténtalo de nuevo.";
+            }
+        }
+    </script>
 </head>
 <body>
-
-<div id="login">
-    <h2>Introduce la contraseña</h2>
-    <input type="password" id="password" placeholder="Contraseña">
-    <button onclick="verificarContraseña()">Entrar</button>
-</div>
-
-<iframe id="iframe-container" src="https://apuestonvip.com/auth/3m9kOI" allowfullscreen></iframe>
-
-<script>
-    function verificarContraseña() {
-        const password = document.getElementById("password").value;
-        const passwordCorrecta = "1234"; // Contraseña establecida
-
-        if (password === passwordCorrecta) {
-            document.getElementById("login").style.display = "none";
-            document.getElementById("iframe-container").style.display = "block";
-        } else {
-            alert("Contraseña incorrecta. Inténtalo de nuevo.");
-        }
-    }
-</script>
-
+    <h1>APUESTA VIP</h1>
+    <input type="password" id="contraseña" placeholder="Contraseña">
+    <button onclick="verificarContraseña()">Ingresar</button>
+    <div id="error" class="error"></div>
 </body>
 </html>
