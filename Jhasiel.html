@@ -3,58 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Walkie-Talkie Web</title>
+    <title>Página Completa</title>
     <style>
-        body {
-            background-color: black;
-            color: white;
-            text-align: center;
-            font-family: Arial, sans-serif;
+        /* Estilo para pantalla completa */
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
         }
-        button {
-            background-color: green;
-            color: white;
+        iframe {
             border: none;
-            padding: 15px 30px;
-            font-size: 18px;
-            cursor: pointer;
-            border-radius: 10px;
-        }
-        button:hover {
-            background-color: #28a745;
+            width: 100%;
+            height: 100%;
         }
     </style>
 </head>
 <body>
-    <h1>Comunicación Walkie-Talkie</h1>
-    <button id="startCall">Iniciar Comunicación</button>
-    <audio id="remoteAudio" autoplay></audio>
-
-    <script>
-        const startCallButton = document.getElementById('startCall');
-        const remoteAudio = document.getElementById('remoteAudio');
-        let localStream, peerConnection;
-
-        const config = {
-            iceServers: [
-                { urls: 'stun:stun.l.google.com:19302' }
-            ]
-        };
-
-        async function startCall() {
-            localStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-            peerConnection = new RTCPeerConnection(config);
-
-            localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
-
-            peerConnection.ontrack = event => {
-                remoteAudio.srcObject = event.streams[0];
-            };
-
-            // Lógica de señalización aquí (WebSocket o similar)
-        }
-
-        startCallButton.addEventListener('click', startCall);
-    </script>
+    <iframe src="https://github.com/maicolyordan/Evoluci-nTV-/blob/Html/PELICULAS.html" title="Evolución TV - Películas"></iframe>
 </body>
 </html>
