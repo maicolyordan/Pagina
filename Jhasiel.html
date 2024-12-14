@@ -1,16 +1,13 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página Completa</title>
+    <title>Subway Surfers - Pantalla Completa</title>
     <style>
-        /* Estilo para pantalla completa */
-        html, body {
-            margin: 0;
-            padding: 0;
+        body, html {
             height: 100%;
-            width: 100%;
+            margin: 0;
         }
         iframe {
             border: none;
@@ -20,6 +17,12 @@
     </style>
 </head>
 <body>
-    <iframe src="https://github.com/maicolyordan/Evoluci-nTV-/blob/Html/PELICULAS.html" title="Evolución TV - Películas"></iframe>
+    <iframe src="https://poki.com/es/g/subway-surfers#fullscreen" id="game" allowfullscreen></iframe>
+
+    <script>
+        document.documentElement.requestFullscreen().catch(err => {
+            console.log("No se pudo activar la pantalla completa: " + err);
+        });
+    </script>
 </body>
 </html>
