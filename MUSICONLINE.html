@@ -55,6 +55,10 @@
       width: 100%;
       text-align: center;
     }
+    #now-playing {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
     .controls {
       display: flex;
       justify-content: center;
@@ -114,10 +118,11 @@
   </header>
 
   <div class="music-list-container" id="music-list">
-    <!-- Aquí se mostrarán las canciones -->
+    <!-- Lista de canciones -->
   </div>
 
   <div class="player">
+    <div id="now-playing">No hay música reproduciéndose</div>
     <div class="progress-container">
       <span class="progress-time" id="current-time">00:00</span>
       <div class="progress-bar" id="progress-bar">
@@ -135,7 +140,7 @@
 
   <script>
     const musicList = [
-       { title: "Daddy Yankee - Descontrol.mp3", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/Daddy%20Yankee%20-%20Descontrol.mp3" },
+         { title: "Daddy Yankee - Descontrol.mp3", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/Daddy%20Yankee%20-%20Descontrol.mp3" },
       { title: "Daddy Yankee - Limbo (Video Oficial).mp3", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/Daddy%20Yankee%20-%20Limbo%20(Video%20Oficial).mp3" },
       { title: "MySpace (feat. Wisin & Yandel).mp3", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/MySpace%20(feat.%20Wisin%20&%20Yandel).mp3" },
       { title: "Ozuna - Si No Te Quiere Remix feat. Arcangel & Farruko (Audio Oficial).mp3", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/Ozuna%20-%20Si%20No%20Te%20Quiere%20Remix%20feat.%20Arcangel%20&%20Farruko%20(Audio%20Oficial).mp3" },
@@ -143,8 +148,9 @@
       { title: "Plan B - Fanatica Sensual Official Video.mp3", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/Plan%20B%20-%20Fanatica%20Sensual%20Official%20Video.mp3" },
       { title: "Plan B - Por Que Te Demoras_  [Official Audio].mp3", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/Plan%20B%20-%20Por%20Que%20Te%20Demoras_%20%20%5BOfficial%20Audio%5D.mp3" },
       { title: "Por El Momento - Nicky Jam ft Plan B  Concept Video.mp3", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/Por%20El%20Momento%20-%20Nicky%20Jam%20ft%20Plan%20B%20%20Concept%20Video.mp3" },
-      { title: "Wisin & Yandel - Pegao (Official ).mp3", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/Wisin%20&%20Yandel%20-%20Pegao%20(Official%20Video).mp3" }   
-         ];
+      { title: "Wisin & Yandel - Pegao (Official ).mp3", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/Wisin%20&%20Yandel%20-%20Pegao%20(Official%20Video).mp3" }
+      
+    ];
 
     const audio = document.getElementById("audio");
     const playBtn = document.getElementById("play");
@@ -154,6 +160,7 @@
     const progress = document.getElementById("progress");
     const musicListEl = document.getElementById("music-list");
     const searchInput = document.getElementById("search");
+    const nowPlayingEl = document.getElementById("now-playing");
 
     let currentSongIndex = 0;
 
@@ -178,6 +185,9 @@
       audio.src = musicList[index].src;
       audio.play();
       playBtn.textContent = "❚❚";
+
+      // Actualizar el título de la canción
+      nowPlayingEl.textContent = `Reproduciendo: ${musicList[index].title}`;
     }
 
     function playNextMusic() {
