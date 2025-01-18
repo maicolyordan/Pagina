@@ -3,212 +3,234 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reproductor de Música Profesional</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <title>Reproductor de Música</title>
   <style>
     body {
-      font-family: 'Arial', sans-serif;
-      background-color: #212121;
+      background-color: #000;
       color: #fff;
-      padding: 20px;
+      font-family: Arial, sans-serif;
       margin: 0;
+      padding: 0;
       display: flex;
       flex-direction: column;
-      align-items: center;
+      height: 100vh;
+      overflow: hidden;
     }
-    h1 {
+    header {
+      background: #333;
+      padding: 10px 20px;
       text-align: center;
-      font-size: 2.5rem;
-      margin-bottom: 20px;
-      font-weight: bold;
     }
-    #search-bar {
-      padding: 15px;
+    header input {
       width: 100%;
-      max-width: 400px;
+      padding: 10px;
       border: none;
-      border-radius: 8px;
-      font-size: 1.1rem;
-      margin-bottom: 20px;
-      outline: none;
-      background-color: #333;
-      color: #fff;
+      border-radius: 5px;
+      font-size: 16px;
     }
-    #music-list {
-      width: 100%;
-      max-width: 400px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      max-height: 50vh;
+    .music-list-container {
+      flex: 1;
       overflow-y: auto;
+      padding: 10px 20px;
     }
     .music-item {
-      padding: 15px;
-      background-color: #1e1e1e;
-      color: #fff;
-      border-radius: 8px;
-      font-size: 1.1rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      padding: 10px;
+      border-bottom: 1px solid #444;
       cursor: pointer;
-      transition: transform 0.3s ease, background-color 0.3s ease;
+      transition: background 0.3s;
     }
     .music-item:hover {
-      background-color: #333;
-      transform: scale(1.05);
+      background: #444;
     }
-    .active-song {
-      background-color: #4caf50; /* Color para la canción actual */
+    .music-item.playing {
+      background: #00eaff;
+      color: #000;
     }
-    #audio-player-container {
+    .player {
+      background: #222;
+      padding: 20px;
+      position: fixed;
+      bottom: 0;
+      left: 0;
       width: 100%;
-      max-width: 400px;
-      margin-top: 20px;
-    }
-    #audio-player {
-      width: 100%;
-      border-radius: 8px;
+      text-align: center;
     }
     .controls {
-      margin-top: 15px;
       display: flex;
-      justify-content: space-around;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
     }
-    .control-button {
-      background-color: #4caf50;
-      color: #fff;
+    .controls button {
+      background: none;
       border: none;
-      padding: 15px;
-      border-radius: 50%;
-      font-size: 20px;
+      color: #fff;
+      font-size: 24px;
       cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.3s ease;
     }
-    .control-button:hover {
-      background-color: #388e3c;
-      transform: scale(1.2);
-    }
-    .control-button:focus {
+    .controls button:focus {
       outline: none;
+    }
+    .play-btn {
+      background-color: #00eaff;
+      color: #000;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      font-size: 32px;
+      border: none;
+      cursor: pointer;
+    }
+    .play-btn:focus {
+      outline: none;
+    }
+    .progress-container {
+      display: flex;
+      align-items: center;
+      margin: 10px 0;
+    }
+    .progress-time {
+      font-size: 14px;
+    }
+    .progress-bar {
+      flex: 1;
+      height: 4px;
+      margin: 0 10px;
+      background: #444;
+      border-radius: 2px;
+      position: relative;
+    }
+    .progress {
+      height: 100%;
+      background: #00eaff;
+      border-radius: 2px;
+      width: 0;
     }
   </style>
 </head>
 <body>
+  <header>
+    <input type="text" id="search" placeholder="Buscar música...">
+  </header>
 
-  <h1>Reproductor de Música</h1>
-  <input type="text" id="search-bar" placeholder="Buscar canción..." onkeyup="filterMusic()">
-  
-  <div id="music-list">
-    <!-- Las canciones aparecerán aquí -->
+  <div class="music-list-container" id="music-list">
+    <!-- Aquí se mostrarán las canciones -->
   </div>
 
-  <div id="audio-player-container">
-    <audio id="audio-player" controls>
-      <source id="audio-source" type="audio/mpeg">
-      Tu navegador no soporta el reproductor de audio.
-    </audio>
-    <div class="controls">
-      <button class="control-button" id="prev-btn" onclick="prevSong()">
-        <i class="fas fa-backward"></i>
-      </button>
-      <button class="control-button" id="play-pause-btn" onclick="togglePlayPause()">
-        <i class="fas fa-play" id="play-icon"></i>
-      </button>
-      <button class="control-button" id="next-btn" onclick="nextSong()">
-        <i class="fas fa-forward"></i>
-      </button>
+  <div class="player">
+    <div class="progress-container">
+      <span class="progress-time" id="current-time">00:00</span>
+      <div class="progress-bar" id="progress-bar">
+        <div class="progress" id="progress"></div>
+      </div>
+      <span class="progress-time" id="duration">00:00</span>
     </div>
+    <div class="controls">
+      <button id="prev">&#9664;</button>
+      <button class="play-btn" id="play">&#9654;</button>
+      <button id="next">&#9654;&#9654;</button>
+    </div>
+    <audio id="audio"></audio>
   </div>
 
   <script>
-    const songs = [
-      {
-        title: "Es un secreto",
-        url: "https://gitlab.com/anderson1353803/andersonmp3/-/raw/0920a6c28edfacd80d8f3f790c66011e9f47340b/Plan_B_-_Es_Un_Secreto__Official_Video_.mp3"
-      },
-      {
-        title: "Otra Canción",
-        url: "https://ejemplo.com/otra_cancion.mp3"
-      }
+    const musicList = [
+      { title: "Canción 1", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
+      { title: "Canción 2", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
+      { title: "Canción 3", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" }
     ];
+
+    const audio = document.getElementById("audio");
+    const playBtn = document.getElementById("play");
+    const currentTimeEl = document.getElementById("current-time");
+    const durationEl = document.getElementById("duration");
+    const progressBar = document.getElementById("progress-bar");
+    const progress = document.getElementById("progress");
+    const musicListEl = document.getElementById("music-list");
+    const searchInput = document.getElementById("search");
 
     let currentSongIndex = 0;
 
-    // Mostrar la lista de canciones
-    function displayMusicList(filteredSongs = songs) {
-      const musicListContainer = document.getElementById('music-list');
-      musicListContainer.innerHTML = '';
-
-      filteredSongs.forEach((song, index) => {
-        const musicItem = document.createElement('div');
-        musicItem.className = 'music-item';
-        musicItem.textContent = song.title;
-        musicItem.onclick = () => playSong(index);
-        if (index === currentSongIndex) {
-          musicItem.classList.add('active-song');
-        }
-        musicListContainer.appendChild(musicItem);
+    function loadMusic() {
+      musicList.forEach((music, index) => {
+        const item = document.createElement("div");
+        item.className = "music-item";
+        item.textContent = music.title;
+        item.addEventListener("click", () => playMusic(index));
+        musicListEl.appendChild(item);
       });
     }
 
-    // Reproducir una canción específica
-    function playSong(index) {
-      const song = songs[index];
-      const audioPlayer = document.getElementById('audio-player');
-      const audioSource = document.getElementById('audio-source');
-      audioSource.src = song.url;
-      audioPlayer.load();
-      audioPlayer.play();
+    function playMusic(index) {
+      const items = document.querySelectorAll(".music-item");
+      items.forEach(item => item.classList.remove("playing"));
+
+      const currentItem = musicListEl.children[index];
+      currentItem.classList.add("playing");
+
       currentSongIndex = index;
-
-      document.getElementById('play-icon').className = 'fas fa-pause';
-
-      // Resaltar la canción actual
-      displayMusicList();
+      audio.src = musicList[index].src;
+      audio.play();
+      playBtn.textContent = "❚❚";
     }
 
-    // Pausar o reanudar la canción
-    function togglePlayPause() {
-      const audioPlayer = document.getElementById('audio-player');
-      const playIcon = document.getElementById('play-icon');
+    function playNextMusic() {
+      currentSongIndex = (currentSongIndex + 1) % musicList.length;
+      playMusic(currentSongIndex);
+    }
 
-      if (audioPlayer.paused) {
-        audioPlayer.play();
-        playIcon.className = 'fas fa-pause';
+    function playPreviousMusic() {
+      currentSongIndex = (currentSongIndex - 1 + musicList.length) % musicList.length;
+      playMusic(currentSongIndex);
+    }
+
+    playBtn.addEventListener("click", () => {
+      if (audio.paused) {
+        audio.play();
+        playBtn.textContent = "❚❚";
       } else {
-        audioPlayer.pause();
-        playIcon.className = 'fas fa-play';
+        audio.pause();
+        playBtn.textContent = "▶";
       }
+    });
+
+    document.getElementById("next").addEventListener("click", playNextMusic);
+    document.getElementById("prev").addEventListener("click", playPreviousMusic);
+
+    audio.addEventListener("ended", playNextMusic);
+
+    audio.addEventListener("timeupdate", () => {
+      const currentTime = Math.floor(audio.currentTime);
+      const duration = Math.floor(audio.duration);
+      currentTimeEl.textContent = formatTime(currentTime);
+      durationEl.textContent = formatTime(duration);
+      const progressWidth = (audio.currentTime / audio.duration) * 100;
+      progress.style.width = progressWidth + "%";
+    });
+
+    progressBar.addEventListener("click", (e) => {
+      const width = progressBar.clientWidth;
+      const offsetX = e.offsetX;
+      const duration = audio.duration;
+      audio.currentTime = (offsetX / width) * duration;
+    });
+
+    searchInput.addEventListener("input", (e) => {
+      const searchTerm = e.target.value.toLowerCase();
+      const items = document.querySelectorAll(".music-item");
+      items.forEach((item) => {
+        const isVisible = item.textContent.toLowerCase().includes(searchTerm);
+        item.style.display = isVisible ? "block" : "none";
+      });
+    });
+
+    function formatTime(seconds) {
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${mins < 10 ? "0" : ""}${mins}:${secs < 10 ? "0" : ""}${secs}`;
     }
 
-    // Cambiar a la canción anterior
-    function prevSong() {
-      currentSongIndex = (currentSongIndex > 0) ? currentSongIndex - 1 : songs.length - 1;
-      playSong(currentSongIndex);
-    }
-
-    // Cambiar a la siguiente canción
-    function nextSong() {
-      currentSongIndex = (currentSongIndex < songs.length - 1) ? currentSongIndex + 1 : 0;
-      playSong(currentSongIndex);
-    }
-
-    // Filtrar las canciones
-    function filterMusic() {
-      const searchQuery = document.getElementById('search-bar').value.toLowerCase();
-      const filteredSongs = searchQuery
-        ? songs.filter(song => song.title.toLowerCase().includes(searchQuery))
-        : songs;
-      displayMusicList(filteredSongs);
-    }
-
-    // Mostrar todas las canciones al cargar la página
-    window.onload = () => {
-      displayMusicList();
-    };
+    loadMusic();
   </script>
-
 </body>
 </html>
