@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -140,16 +140,15 @@
 
   <script>
     const musicList = [
-         { title: "Daddy Yankee - Descontrol.mp3", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/Daddy%20Yankee%20-%20Descontrol.mp3" },
-      { title: "Daddy Yankee - Limbo (Video Oficial).mp3", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/Daddy%20Yankee%20-%20Limbo%20(Video%20Oficial).mp3" },
-      { title: "MySpace (feat. Wisin & Yandel).mp3", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/MySpace%20(feat.%20Wisin%20&%20Yandel).mp3" },
-      { title: "Ozuna - Si No Te Quiere Remix feat. Arcangel & Farruko (Audio Oficial).mp3", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/Ozuna%20-%20Si%20No%20Te%20Quiere%20Remix%20feat.%20Arcangel%20&%20Farruko%20(Audio%20Oficial).mp3" },
-      { title: "Plan B - Es Un Secreto [Official ].mp3", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/Plan%20B%20-%20Es%20Un%20Secreto%20%5BOfficial%20Video%5D.mp3" },
-      { title: "Plan B - Fanatica Sensual Official Video.mp3", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/Plan%20B%20-%20Fanatica%20Sensual%20Official%20Video.mp3" },
-      { title: "Plan B - Por Que Te Demoras_  [Official Audio].mp3", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/Plan%20B%20-%20Por%20Que%20Te%20Demoras_%20%20%5BOfficial%20Audio%5D.mp3" },
-      { title: "Por El Momento - Nicky Jam ft Plan B  Concept Video.mp3", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/Por%20El%20Momento%20-%20Nicky%20Jam%20ft%20Plan%20B%20%20Concept%20Video.mp3" },
-      { title: "Wisin & Yandel - Pegao (Official ).mp3", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/Wisin%20&%20Yandel%20-%20Pegao%20(Official%20Video).mp3" }
-      
+      { title: "Daddy Yankee - Descontrol.mp3", artist: "Daddy Yankee", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/Daddy%20Yankee%20-%20Descontrol.mp3" },
+      { title: "Daddy Yankee - Limbo (Video Oficial).mp3", artist: "Daddy Yankee", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/Daddy%20Yankee%20-%20Limbo%20(Video%20Oficial).mp3" },
+      { title: "ySpace (feat. Wisin & Yandel).mp3", artist: "Wisin y Yandel", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/MySpace%20(feat.%20Wisin%20&%20Yandel).mp3" },
+      { title: "zuna - Si No Te Quiere Remix feat. Arcangel & Farruko (Audio Oficial).mp3", artist: "zuna", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/Ozuna%20-%20Si%20No%20Te%20Quiere%20Remix%20feat.%20Arcangel%20&%20Farruko%20(Audio%20Oficial).mp3" },
+      { title: "Plan B - Es Un Secreto [Official ].mp3", artist: "Plan B", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/Plan%20B%20-%20Es%20Un%20Secreto%20%5BOfficial%20Video%5D.mp3" },
+      { title: "plan B - Fanatica Sensual Official Video.mp3", artist: "Plan B", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/Plan%20B%20-%20Fanatica%20Sensual%20Official%20Video.mp3" },
+      { title: "Plan B - Por Que Te Demoras_  [Official Audio].mp3", artist: "Plan B", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/Plan%20B%20-%20Por%20Que%20Te%20Demoras_%20%20%5BOfficial%20Audio%5D.mp3" },
+      { title: "Por El Momento - Nicky Jam ft Plan B  Concept Video.mp3", artist: "Plan B", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/Por%20El%20Momento%20-%20Nicky%20Jam%20ft%20Plan%20B%20%20Concept%20Video.mp3" },
+      { title: "wisin & Yandel - Pegao (Official ).mp3", artist: "Wisin y Yandel", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/Wisin%20&%20Yandel%20-%20Pegao%20(Official%20Video).mp3" }
     ];
 
     const audio = document.getElementById("audio");
@@ -191,8 +190,13 @@
     }
 
     function playNextMusic() {
-      currentSongIndex = (currentSongIndex + 1) % musicList.length;
-      playMusic(currentSongIndex);
+      const currentArtist = musicList[currentSongIndex].artist;
+      const nextSongIndex = musicList.findIndex((music, index) => music.artist === currentArtist && index > currentSongIndex);
+      if (nextSongIndex !== -1) {
+        playMusic(nextSongIndex);
+      } else {
+        playMusic(0); // Reproduce desde el inicio si no hay más canciones del mismo artista
+      }
     }
 
     function playPreviousMusic() {
