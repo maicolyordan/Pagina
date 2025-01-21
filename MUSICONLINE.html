@@ -1,4 +1,5 @@
- <!DOCTYPE html>
+  
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -68,24 +69,11 @@
     .controls button {
       background: none;
       border: none;
-      color: #fff;
-      font-size: 24px;
       cursor: pointer;
+      width: 50px;
+      height: 50px;
     }
     .controls button:focus {
-      outline: none;
-    }
-    .play-btn {
-      background-color: #00eaff;
-      color: #000;
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      font-size: 32px;
-      border: none;
-      cursor: pointer;
-    }
-    .play-btn:focus {
       outline: none;
     }
     .progress-container {
@@ -130,15 +118,18 @@
       </div>
       <span class="progress-time" id="duration">00:00</span>
     </div>
+
     <div class="controls">
-      <button id="prev">&#9664;</button>
-      <button class="play-btn" id="play">&#9654;</button>
-      <button id="next">&#9654;&#9654;</button>
+ 
+      <button id="prev"><img src="https://i.ibb.co/YZ73r9b/1737426711802.png" alt="Atrás" width="50" height="50"></button>
+      <button class="play-btn" id="play"><img src="https://i.ibb.co/HxGLsRG/1737426685800.png" alt="Play" width="50" height="50"></button>
+      <button id="next"><img src="https://i.ibb.co/hHxz9jF/1737426742770.png" alt="Siguiente" width="50" height="50"></button>
     </div>
     <audio id="audio"></audio>
   </div>
 
   <script>
+    
     const musicList = [
             { title: "Daddy Yankee - Descontrol.mp3", artist: "REGUETON", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/Daddy%20Yankee%20-%20Descontrol.mp3" },
       { title: "Daddy Yankee - Limbo (Video Oficial).mp3", artist: "REGUETON", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/Daddy%20Yankee%20-%20Limbo%20(Video%20Oficial).mp3" },
@@ -193,7 +184,40 @@
       { title: "REGUETON/Ozuna - Dile Que Tu Me Quieres (Video Oficial)  Odisea.mp3", artist: "REGUETON", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/REGUETON/Ozuna%20-%20Dile%20Que%20Tu%20Me%20Quieres%20(Video%20Oficial)%20%20Odisea.mp3" },
       { title: "REGUETON/Ozuna - El Farsante (Audio Oficial)  Odisea.mp3", artist: "REGUETON", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/REGUETON/Ozuna%20-%20El%20Farsante%20(Audio%20Oficial)%20%20Odisea.mp3" },
       { title: "REGUETON/Rauw Alejandro & Chencho Corleone - Desesperados (Video Oficial).mp3", artist: "REGUETON", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/REGUETON/Rauw%20Alejandro%20&%20Chencho%20Corleone%20-%20Desesperados%20(Video%20Oficial).mp3" },
-      { title: "REGUETON/Tainy, Anuel AA, Ozuna - Adicto (Official Video).mp3", artist: "REGUETON", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/REGUETON/Tainy,%20Anuel%20AA,%20Ozuna%20-%20Adicto%20(Official%20Video).mp3" }
+      { title: "REGUETON/Tainy, Anuel AA, Ozuna - Adicto (Official Video).mp3", artist: "REGUETON", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/REGUETON/Tainy,%20Anuel%20AA,%20Ozuna%20-%20Adicto%20(Official%20Video).mp3" },
+
+
+
+     { title: "CLASICO/Garcia - Bamboleo (HD).mp3", artist: "CLASICOS", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/CLASICO/Garcia%20-%20Bamboleo%20(HD).mp3" },
+{ title: "CLASICO/Fantasia - Boys.mp3", artist: "CLASICOS", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/CLASICO/Fantasia%20-%20Boys.mp3" },
+{ title: "CLASICO/Fancy - Flames of love.mp3", artist: "CLASICOS", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/CLASICO/Fancy%20-%20Flames%20of%20love.mp3" },
+{ title: "CLASICO/Eclipse total del amor.mp3", artist: "CLASICOS", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/CLASICO/Eclipse%20total%20del%20amor.mp3" },
+{ title: "CLASICO/Dire Straits - Walk Of Life.mp3", artist: "CLASICOS", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/CLASICO/Dire%20Straits%20-%20Walk%20Of%20Life.mp3" },
+{ title: "CLASICO/David - Words.mp3", artist: "CLASICOS", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/CLASICO/David%20-%20Words.mp3" },
+{ title: "CLASICO/DJ Bobo - Eberybody remix c.mp3", artist: "CLASICOS", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/CLASICO/DJ%20Bobo%20-%20Eberybody%20remix%20c.mp3" },
+{ title: "CLASICO/DA YA THINK IM SEXY -- ROD STEWART.mp3", artist: "CLASICOS", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/CLASICO/DA%20YA%20THINK%20IM%20SEXY%20--%20ROD%20STEWART.mp3" },
+{ title: "CLASICO/CC Catch - Soul survivor.mp3", artist: "CLASICOS", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/CLASICO/CC%20Catch%20-%20Soul%20survivor.mp3" },
+{ title: "CLASICO/Bonnie Tyler - Total Eclipse Of the Heart.mp3", artist: "CLASICOS", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/CLASICO/Bonnie%20Tyler%20-%20Total%20Eclipse%20Of%20the%20Heart.mp3" },
+
+
+
+       { título: "REGUETON/Algo Me Gusta De Ti (Lyric Video).mp3", artista: "REGUETON", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/REGUETON/Algo%20Me%20Gusta%20De%20Ti%20(Lyric%20Video).mp3" },
+      { título: "REGUETON/Algo Me Gusta De Ti (Official Video).mp3", artista: "REGUETON", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/REGUETON/Algo%20Me%20Gusta%20De%20Ti%20(Official%20Video).mp3" },
+      { título: "REGUETON/Becky G, Bad Bunny - Mayores (Official Video).mp3", artista: "REGUETON", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/REGUETON/Becky%20G,%20Bad%20Bunny%20-%20Mayores%20(Official%20Video).mp3" },
+      { título: "REGUETON/Becky G, NATTI NATASHA - Sin Pijama (Official Video).mp3", artista: "REGUETON", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/REGUETON/Becky%20G,%20NATTI%20NATASHA%20-%20Sin%20Pijama%20(Official%20Video).mp3" },
+      { título: "REGUETON/Cosculluela, Nicky Jam - Te Busco (Audio Oficial) .mp3", artista: "REGUETON", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/REGUETON/Cosculluela,%20Nicky%20Jam%20-%20Te%20Busco%20(Audio%20Oficial)%20%5B2016%5D%20%5BGd_tCTtJhSE%5D.mp3" },
+      { título: "REGUETON/Daddy Yankee - Sabado Rebelde ft. Plan B.mp3", artista: "REGUETON", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/REGUETON/Daddy%20Yankee%20-%20Sabado%20Rebelde%20ft.%20Plan%20B.mp3" },
+      { título: "REGUETON/Don Omar ft. Plan B - Hooka (Lyric Video).mp3", artista: "REGUETON", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/REGUETON/Don%20Omar%20ft.%20Plan%20B%20-%20Hooka%20(Lyric%20Video).mp3" },
+      { título: "REGUETON/J. Balvin - Ay Vamos (Official Video).mp3", artista: "REGUETON", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/REGUETON/J.%20Balvin%20-%20Ay%20Vamos%20(Official%20Video).mp3" },
+      { título: "REGUETON/Liebre Lirical - Bien Mala [m7XUK8hV9J0].mp3", artista: "REGUETON", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/REGUETON/Liebre%20Lirical%20-%20Bien%20Mala%20%5Bm7XUK8hV9J0%5D.mp3" },
+      { título: "REGUETON/Mi vecinita - Plan B .mp3", artista: "REGUETON", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/REGUETON/Mi%20vecinita%20-%20Plan%20B%20%5Bletra%5D%20%5BiTlEuRNgixk%5D.mp3" },
+      { título: "REGUETON/Natti Natasha  Ozuna - Criminal [Official Video].mp3", artista: "REGUETON", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/REGUETON/Natti%20Natasha%20%20Ozuna%20-%20Criminal%20%5BOfficial%20Video%5D.mp3" },
+      { título: "REGUETON/Natti Natasha x Becky G - Ram Pam Pam .mp3", artista: "REGUETON", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/REGUETON/Natti%20Natasha%20x%20Becky%20G%20-%20Ram%20Pam%20Pam%20%5BOfficial%20Video%5D.mp3" },
+      { título: "REGUETON/Nicky Jam - Voy a Beber   @NickyJamPr.mp3", artista: "REGUETON", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/REGUETON/Nicky%20Jam%20-%20Voy%20a%20Beber%20%20V%C3%ADdeo%20Oficial%20%20@NickyJamPr.mp3" },
+      { título: "REGUETON/Ojitos Chiquitos.mp3", artista: "REGUETON", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/REGUETON/Ojitos%20Chiquitos.mp3" },
+      { título: "REGUETON/Ozuna - Si No Te Quiere Remix feat. Arcangel & Farruko (Audio Oficial).mp3", artista: "REGUETON", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/REGUETON/Ozuna%20-%20Si%20No%20Te%20Quiere%20Remix%20feat.%20Arcangel%20&%20Farruko%20(Audio%20Oficial).mp3" },
+      { título: "REGUETON/Plan B - Por Que Te Demoras_  [Official Audio].mp3", artista: "REGUETON", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/REGUETON/Plan%20B%20-%20Por%20Que%20Te%20Demoras_%20%20%5BOfficial%20Audio%5D.mp3" },
+      { título: "REGUETON/Si Tu No Estas - Nicky Jam Ft De la Ghetto  Video Oficial.mp3", artista: "REGUETON", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/REGUETON/Si%20Tu%20No%20Estas%20-%20Nicky%20Jam%20Ft%20De%20la%20Ghetto%20%20Video%20Oficial.mp3" }
     ];
 
     const audio = document.getElementById("audio");
@@ -228,20 +252,37 @@
       currentSongIndex = index;
       audio.src = musicList[index].src;
       audio.play();
-      playBtn.textContent = "❚❚";
+      playBtn.innerHTML = '<img src="https://i.ibb.co/GchyJGx/1737426658058.png" alt="Pausa" width="50" height="50">';
 
-      // Actualizar el título de la canción
       nowPlayingEl.textContent = `Reproduciendo: ${musicList[index].title}`;
     }
 
     function playNextMusic() {
+      // Buscar el siguiente índice de canción del mismo artista
       const currentArtist = musicList[currentSongIndex].artist;
-      const nextSongIndex = musicList.findIndex((music, index) => music.artist === currentArtist && index > currentSongIndex);
-      if (nextSongIndex !== -1) {
-        playMusic(nextSongIndex);
-      } else {
-        playMusic(0); // Reproduce desde el inicio si no hay más canciones del mismo artista
+      let nextIndex = (currentSongIndex + 1) % musicList.length;
+
+      // Buscar si hay una canción del mismo artista después de la canción actual
+      let foundNext = false;
+      for (let i = nextIndex; i < musicList.length; i++) {
+        if (musicList[i].artist === currentArtist) {
+          nextIndex = i;
+          foundNext = true;
+          break;
+        }
       }
+
+      // Si no se encuentra ninguna canción del mismo artista, reinicia desde el principio
+      if (!foundNext) {
+        for (let i = 0; i < musicList.length; i++) {
+          if (musicList[i].artist === currentArtist) {
+            nextIndex = i;
+            break;
+          }
+        }
+      }
+
+      playMusic(nextIndex);
     }
 
     function playPreviousMusic() {
@@ -252,13 +293,13 @@
     playBtn.addEventListener("click", () => {
       if (audio.paused) {
         audio.play();
-        playBtn.textContent = "❚❚";
+        playBtn.innerHTML = '<img src="https://i.ibb.co/GchyJGx/1737426658058.png" alt="Pausa" width="50" height="50">';
       } else {
         audio.pause();
-        playBtn.textContent = "▶";
+        playBtn.innerHTML = '<img src="https://i.ibb.co/HxGLsRG/1737426685800.png" alt="Play" width="50" height="50">';
       }
     });
-
+ 
     document.getElementById("next").addEventListener("click", playNextMusic);
     document.getElementById("prev").addEventListener("click", playPreviousMusic);
 
