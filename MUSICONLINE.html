@@ -1,137 +1,230 @@
  <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reproductor de Música</title>
+  <title>Reproductor de Audio</title>
   <style>
     body {
       background-color: #000;
       color: #fff;
       font-family: Arial, sans-serif;
       margin: 0;
-      padding: 0;
       display: flex;
       flex-direction: column;
       height: 100vh;
-      overflow: hidden;
     }
-    header {
-      background: #333;
-      padding: 10px 20px;
-      text-align: center;
-    }
-    header input {
-      width: 100%;
-      padding: 10px;
-      border: none;
-      border-radius: 5px;
-      font-size: 16px;
-    }
-    .music-list-container {
+
+    .playlist {
       flex: 1;
       overflow-y: auto;
-      padding: 10px 20px;
-    }
-    .music-item {
       padding: 10px;
-      border-bottom: 1px solid #444;
+    }
+
+    .song {
+      padding: 10px;
+      border: 1px solid #444;
+      margin-bottom: 5px;
       cursor: pointer;
-      transition: background 0.3s;
-    }
-    .music-item:hover {
-      background: #444;
-    }
-    .music-item.playing {
-      background: #00eaff;
-      color: #000;
-    }
-    .player {
+      border-radius: 5px;
       background: #222;
-      padding: 20px;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
       text-align: center;
     }
-    #now-playing {
-      font-size: 18px;
+
+    .song:hover {
+      background: #444;
+    }
+
+    .song.playing {
+      background-color: #333;
+      color: lime;
+    }
+
+    .audio-player {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: #111;
+      padding: 10px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border-top: 1px solid #444;
+    }
+
+    .now-playing {
+      font-size: 16px;
       margin-bottom: 10px;
     }
-    .controls {
+
+    .time {
       display: flex;
-      justify-content: center;
       align-items: center;
-      margin-top: 20px;
+      justify-content: space-between;
+      width: 90%;
     }
-    .controls button {
-      background: none;
+
+    #progress {
+      flex: 1;
+      margin: 0 10px;
+      appearance: none;
+      background: #fff;
+      height: 4px;
+      cursor: pointer;
+    }
+
+    #progress::-webkit-slider-thumb {
+      appearance: none;
+      background: cyan;
+      height: 14px;
+      width: 14px;
+      border-radius: 50%;
       border: none;
       cursor: pointer;
-      width: 50px;
-      height: 50px;
     }
-    .controls button:focus {
-      outline: none;
-    }
-    .progress-container {
+
+    .buttons {
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      margin: 10px 0;
+      width: 90%;
+      margin-top: 10px;
     }
-    .progress-time {
-      font-size: 14px;
+
+    .control-button,
+    .play-button {
+      background: none;
+      border: none;
+      color: cyan;
+      font-size: 24px;
+      cursor: pointer;
     }
-    .progress-bar {
-      flex: 1;
-      height: 4px;
-      margin: 0 10px;
-      background: #444;
-      border-radius: 2px;
-      position: relative;
+
+    .play-button {
+      font-size: 36px;
     }
-    .progress {
-      height: 100%;
-      background: #00eaff;
-      border-radius: 2px;
-      width: 0;
+
+    .random-button {
+      font-size: 24px;
+      background: none;
+      border: none;
+      color: cyan;
+      cursor: pointer;
+    }
+
+    .random-button.active {
+      color: lime;
+    }
+
+    #search {
+      margin: 10px;
+      padding: 5px;
+      font-size: 16px;
+      color: #000;
     }
   </style>
 </head>
 <body>
-  <header>
-    <input type="text" id="search" placeholder="Buscar música...">
-  </header>
-
-  <div class="music-list-container" id="music-list">
-    <!-- Lista de canciones -->
+  <input type="text" id="search" placeholder="Buscar canción..." />
+  <div class="playlist">
+<div class="song" data-index="0">Daddy Yankee - Descontrol.mp3</div>
+<div class="song" data-index="1">Daddy Yankee - Limbo (Video Oficial).mp3</div>
+<div class="song" data-index="2">ySpace (feat. Wisin & Yandel).mp3</div>
+<div class="song" data-index="3">zuna - Si No Te Quiere Remix feat. Arcangel & Farruko (Audio Oficial).mp3</div>
+<div class="song" data-index="4">Plan B - Es Un Secreto [Official ].mp3</div>
+<div class="song" data-index="5">plan B - Fanatica Sensual Official Video.mp3</div>
+<div class="song" data-index="6">Plan B - Por Que Te Demoras_  [Official Audio].mp3</div>
+<div class="song" data-index="7">Por El Momento - Nicky Jam ft Plan B  Concept Video.mp3</div>
+<div class="song" data-index="8">wisin & Yandel - Pegao (Official ).mp3</div>
+<div class="song" data-index="9">CLASICO/2 brothers on the 4th floor dreams.mp3</div>
+<div class="song" data-index="10">CLASICO/ABBA -GIME GIME.mp3</div>
+<div class="song" data-index="11">CLASICO/Ace of Base - Beautiful Life.mp3</div>
+<div class="song" data-index="12">CLASICO/Aha - Take On Me.mp3</div>
+<div class="song" data-index="13">CLASICO/Air Supli.mp3</div>
+<div class="song" data-index="14">CLASICO/Alpaville - Big in japan.mp3</div>
+<div class="song" data-index="15">CLASICO/Bad Boys Blue - Your a woman.mp3</div>
+<div class="song" data-index="16">CLASICO/Bee Gees - STAYIN ALIVE.mp3</div>
+<div class="song" data-index="17">CLASICO/Bobby Summer - Jabba Jabba.mp3</div>
+<div class="song" data-index="18">CLASICO/Boney M -GOTT A GO HOME.mp3</div>
+<div class="song" data-index="19">REGUETON/Alexis Y Fido - Cinco Letras.mp3</div>
+<div class="song" data-index="20">REGUETON/Alexis y Fido Feat Wisin y Yandel  Energia Remix_192kbps.mp3</div>
+<div class="song" data-index="21">REGUETON/Chica 3D - Big Yamo Ft. Prix.mp3</div>
+<div class="song" data-index="22">REGUETON/Donde Estes Llegare - Alexis  Fido Perreologia NEW  Reggaeton 2011.mp3</div>
+<div class="song" data-index="23">REGUETON/Gringo Rasta ft ñengo - Me niegas.mp3</div>
+<div class="song" data-index="24">REGUETON/Wisin Yandel - Algo me gusta de ti.mp3</div>
+<div class="song" data-index="25">REGUETON/Wisin Yandel FT 50 Cent - MUJERES EN EL CLUB.mp3</div>
+<div class="song" data-index="26">ELECTRONICA/AK Babe-We Don't Care.mp3</div>
+<div class="song" data-index="27">ELECTRONICA/ATB - 9 P.M.mp3</div>
+<div class="song" data-index="28">ELECTRONICA/ATB - Feel You.mp3</div>
+<div class="song" data-index="29">ELECTRONICA/ATB Could You Believe.mp3</div>
+<div class="song" data-index="30">ELECTRONICA/Adrian Sina - Angel.MP3</div>
+<div class="song" data-index="31">REGUETON/Ozuna - En La Intimidad (Video Oficial).mp3</div>
+<div class="song" data-index="32">REGUETON/Don Omar - Ella Y Yo ft. Romeo Santos de Aventura (Official Video HD) Reggaeton Clasico.mp3</div>
+<div class="song" data-index="33">REGUETON/J Balvin BONITA feat. Jowell & Randy.mp3</div>
+<div class="song" data-index="34">REGUETON/Nacho, Yandel, Bad Bunny - Báilame (Remix).mp3</div>
+<div class="song" data-index="35">REGUETON/Ozuna  Falsas Mentiras.mp3</div>
+<div class="song" data-index="36">REGUETON/Ozuna - Corazon de Seda [Official Audio].mp3</div>
+<div class="song" data-index="37">REGUETON/Ozuna - Dile Que Tu Me Quieres (Video Oficial)  Odisea.mp3</div>
+<div class="song" data-index="38">REGUETON/Ozuna - El Farsante (Audio Oficial)  Odisea.mp3</div>
+<div class="song" data-index="39">REGUETON/Rauw Alejandro & Chencho Corleone - Desesperados (Video Oficial).mp3</div>
+<div class="song" data-index="40">REGUETON/Tainy, Anuel AA, Ozuna - Adicto (Official Video).mp3</div>
+<div class="song" data-index="41">CLASICO/Garcia - Bamboleo (HD).mp3</div>
+<div class="song" data-index="42">CLASICO/Fantasia - Boys.mp3</div>
+<div class="song" data-index="43">CLASICO/Fancy - Flames of love.mp3</div>
+<div class="song" data-index="44">CLASICO/Eclipse total del amor.mp3</div>
+<div class="song" data-index="45">CLASICO/Dire Straits - Walk Of Life.mp3</div>
+<div class="song" data-index="46">CLASICO/David - Words.mp3</div>
+<div class="song" data-index="47">CLASICO/DJ Bobo - Eberybody remix c.mp3</div>
+<div class="song" data-index="48">CLASICO/DA YA THINK IM SEXY -- ROD STEWART.mp3</div>
+<div class="song" data-index="49">CLASICO/CC Catch - Soul survivor.mp3</div>
+<div class="song" data-index="50">CLASICO/Bonnie Tyler - Total Eclipse Of the Heart.mp3</div>
+<div class="song" data-index="51">REGUETON/Algo Me Gusta De Ti (Lyric Video).mp3</div>
+<div class="song" data-index="52">REGUETON/Algo Me Gusta De Ti (Official Video).mp3</div>
+<div class="song" data-index="53">REGUETON/Becky G, Bad Bunny - Mayores (Official Video).mp3</div>
+<div class="song" data-index="54">REGUETON/Becky G, NATTI NATASHA - Sin Pijama (Official Video).mp3</div>
+<div class="song" data-index="55">REGUETON/Cosculluela, Nicky Jam - Te Busco (Audio Oficial) .mp3</div>
+<div class="song" data-index="56">REGUETON/Daddy Yankee - Sabado Rebelde ft. Plan B.mp3</div>
+<div class="song" data-index="57">REGUETON/Don Omar ft. Plan B - Hooka (Lyric Video).mp3</div>
+<div class="song" data-index="58">REGUETON/J. Balvin - Ay Vamos (Official Video).mp3</div>
+<div class="song" data-index="59">REGUETON/Liebre Lirical - Bien Mala [m7XUK8hV9J0].mp3</div>
+<div class="song" data-index="60">REGUETON/Mi vecinita - Plan B .mp3</div>
+<div class="song" data-index="61">REGUETON/Natti Natasha  Ozuna - Criminal [Official Video].mp3</div>
+<div class="song" data-index="62">REGUETON/Natti Natasha x Becky G - Ram Pam Pam .mp3</div>
+<div class="song" data-index="63">REGUETON/Nicky Jam - Voy a Beber   @NickyJamPr.mp3</div>
+<div class="song" data-index="64">REGUETON/Ojitos Chiquitos.mp3</div>
+<div class="song" data-index="65">REGUETON/Ozuna - Si No Te Quiere Remix feat. Arcangel & Farruko (Audio Oficial).mp3</div>
+<div class="song" data-index="66">REGUETON/Plan B - Por Que Te Demoras_  [Official Audio].mp3</div>
+<div class="song" data-index="67">REGUETON/Si Tu No Estas - Nicky Jam Ft De la Ghetto  Video Oficial.mp3</div>
   </div>
-
-  <div class="player">
-    <div id="now-playing">No hay música reproduciéndose</div>
-    <div class="progress-container">
-      <span class="progress-time" id="current-time">00:00</span>
-      <div class="progress-bar" id="progress-bar">
-        <div class="progress" id="progress"></div>
-      </div>
-      <span class="progress-time" id="duration">00:00</span>
+  <div class="audio-player">
+    <div class="now-playing" id="now-playing">Reproduciendo: Canción 1</div>
+    <div class="time">
+      <span id="current-time">00:00</span>
+      <input type="range" id="progress" value="0" max="100">
+      <span id="duration">00:00</span>
     </div>
-
-    <div class="controls">
- 
-      <button id="prev"><img src="http://imgfz.com/i/bX4iYCW.png" alt="Atrás" width="50" height="50"></button>
-<div style="width: 50px; display: inline-block;"></div>
-      <button class="play-btn" id="play"><img src="http://imgfz.com/i/mAQiHnf.png" alt="Play" width="50" height="50"></button>
-<div style="width: 50px; display: inline-block;"></div>
-      <button id="next"><img src="http://imgfz.com/i/clmrK4s.png" alt="Siguiente" width="50" height="50"></button>
+    <div class="buttons">
+      <button id="prev" class="control-button">⏮</button>
+      <button id="play" class="play-button">▶</button>
+      <button id="next" class="control-button">⏭</button>
+      <button id="random" class="random-button">🔀</button>
     </div>
-    <audio id="audio"></audio>
   </div>
-
+  <audio id="audio"></audio>
   <script>
-    
-    const musicList = [
+    const audio = document.getElementById('audio');
+    const playButton = document.getElementById('play');
+    const progress = document.getElementById('progress');
+    const currentTime = document.getElementById('current-time');
+    const duration = document.getElementById('duration');
+    const prevButton = document.getElementById('prev');
+    const nextButton = document.getElementById('next');
+    const nowPlaying = document.getElementById('now-playing');
+    const randomButton = document.getElementById('random');
+    const songElements = document.querySelectorAll('.song');
+    const searchInput = document.getElementById('search');
+
+    const playlist = [
       { title: "Daddy Yankee - Descontrol.mp3", artist: "REGUETON", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/Daddy%20Yankee%20-%20Descontrol.mp3" },
       { title: "Daddy Yankee - Limbo (Video Oficial).mp3", artist: "REGUETON", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/Daddy%20Yankee%20-%20Limbo%20(Video%20Oficial).mp3" },
       { title: "ySpace (feat. Wisin & Yandel).mp3", artist: "REGUETON", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/MySpace%20(feat.%20Wisin%20&%20Yandel).mp3" },
@@ -218,126 +311,132 @@
       { title: "REGUETON/Ojitos Chiquitos.mp3", artist: "REGUETON", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/REGUETON/Ojitos%20Chiquitos.mp3" },
       { title: "REGUETON/Ozuna - Si No Te Quiere Remix feat. Arcangel & Farruko (Audio Oficial).mp3", artist: "REGUETON", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/REGUETON/Ozuna%20-%20Si%20No%20Te%20Quiere%20Remix%20feat.%20Arcangel%20&%20Farruko%20(Audio%20Oficial).mp3" },
       { title: "REGUETON/Plan B - Por Que Te Demoras_  [Official Audio].mp3", artist: "REGUETON", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/REGUETON/Plan%20B%20-%20Por%20Que%20Te%20Demoras_%20%20%5BOfficial%20Audio%5D.mp3" },
-      { title: "REGUETON/Si Tu No Estas - Nicky Jam Ft De la Ghetto  Video Oficial.mp3", artist: "REGUETON", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/REGUETON/Si%20Tu%20No%20Estas%20-%20Nicky%20Jam%20Ft%20De%20la%20Ghetto%20%20Video%20Oficial.mp3" }
+      { title: "REGUETON/Si Tu No Estas - Nicky Jam Ft De la Ghetto  Video Oficial.mp3", artist: "REGUETON", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/REGUETON/Si%20Tu%20No%20Estas%20-%20Nicky%20Jam%20Ft%20De%20la%20Ghetto%20%20Video%20Oficial.mp3" },
+
+
     ];
 
-    const audio = document.getElementById("audio");
-    const playBtn = document.getElementById("play");
-    const currentTimeEl = document.getElementById("current-time");
-    const durationEl = document.getElementById("duration");
-    const progressBar = document.getElementById("progress-bar");
-    const progress = document.getElementById("progress");
-    const musicListEl = document.getElementById("music-list");
-    const searchInput = document.getElementById("search");
-    const nowPlayingEl = document.getElementById("now-playing");
-
     let currentSongIndex = 0;
+    let randomMode = false;
 
-    function loadMusic() {
-      musicList.forEach((music, index) => {
-        const item = document.createElement("div");
-        item.className = "music-item";
-        item.textContent = music.title;
-        item.addEventListener("click", () => playMusic(index));
-        musicListEl.appendChild(item);
+    function loadSong(index) {
+      const song = playlist[index];
+      audio.src = song.src;
+      nowPlaying.textContent = `Reproduciendo: ${song.title}`;
+      playButton.textContent = '▶';
+      
+      // Actualiza la apariencia de las canciones
+      songElements.forEach(songElement => {
+        songElement.classList.remove('playing');
       });
+      songElements[index].classList.add('playing');
     }
 
-    function playMusic(index) {
-      const items = document.querySelectorAll(".music-item");
-      items.forEach(item => item.classList.remove("playing"));
-
-      const currentItem = musicListEl.children[index];
-      currentItem.classList.add("playing");
-
-      currentSongIndex = index;
-      audio.src = musicList[index].src;
-      audio.play();
-      playBtn.innerHTML = '<img src="https://i.ibb.co/GchyJGx/1737426658058.png" alt="Pausa" width="50" height="50">';
-
-      nowPlayingEl.textContent = `Reproduciendo: ${musicList[index].title}`;
-    }
-
-    function playNextMusic() {
-      // Buscar el siguiente índice de canción del mismo artista
-      const currentArtist = musicList[currentSongIndex].artist;
-      let nextIndex = (currentSongIndex + 1) % musicList.length;
-
-      // Buscar si hay una canción del mismo artista después de la canción actual
-      let foundNext = false;
-      for (let i = nextIndex; i < musicList.length; i++) {
-        if (musicList[i].artist === currentArtist) {
-          nextIndex = i;
-          foundNext = true;
-          break;
-        }
-      }
-
-      // Si no se encuentra ninguna canción del mismo artista, reinicia desde el principio
-      if (!foundNext) {
-        for (let i = 0; i < musicList.length; i++) {
-          if (musicList[i].artist === currentArtist) {
-            nextIndex = i;
-            break;
-          }
-        }
-      }
-
-      playMusic(nextIndex);
-    }
-
-    function playPreviousMusic() {
-      currentSongIndex = (currentSongIndex - 1 + musicList.length) % musicList.length;
-      playMusic(currentSongIndex);
-    }
-
-    playBtn.addEventListener("click", () => {
+    function playPause() {
       if (audio.paused) {
         audio.play();
-        playBtn.innerHTML = '<img src="http://imgfz.com/i/LlA5KeI.png" alt="Pausa" width="50" height="50">';
+        playButton.textContent = '⏸';
       } else {
         audio.pause();
-        playBtn.innerHTML = '<img src="http://imgfz.com/i/mAQiHnf.png" alt="Play" width="50" height="50">';
+        playButton.textContent = '▶';
       }
+    }
+
+    function nextSong() {
+      const currentArtist = playlist[currentSongIndex].artist;
+      const halfwayPoint = audio.duration / 2;
+
+      if (audio.currentTime < halfwayPoint) {
+        // Si no se ha reproducido hasta la mitad, selecciona otra canción de un artista diferente
+        let nextIndex = currentSongIndex;
+
+        while (nextIndex === currentSongIndex || playlist[nextIndex].artist === currentArtist) {
+          nextIndex = Math.floor(Math.random() * playlist.length);
+        }
+
+        currentSongIndex = nextIndex;
+      } else {
+        // Si ya pasó la mitad, sigue con la lógica normal
+        let nextIndex = (currentSongIndex + 1) % playlist.length;
+
+        while (playlist[nextIndex].artist !== currentArtist) {
+          nextIndex = (nextIndex + 1) % playlist.length;
+        }
+
+        currentSongIndex = nextIndex;
+      }
+
+      loadSong(currentSongIndex);
+      audio.play();
+      playButton.textContent = '⏸';
+    }
+
+    function toggleRandomMode() {
+      randomMode = !randomMode;
+      randomButton.classList.toggle('active', randomMode);
+      randomButton.textContent = randomMode ? '❌' : '🔀';
+    }
+
+    function updateProgress() {
+      progress.value = (audio.currentTime / audio.duration) * 100 || 0;
+      currentTime.textContent = formatTime(audio.currentTime);
+      duration.textContent = formatTime(audio.duration);
+    }
+
+    function setProgress() {
+      audio.currentTime = (progress.value / 100) * audio.duration;
+    }
+
+    function formatTime(time) {
+      const minutes = Math.floor(time / 60);
+      const seconds = Math.floor(time % 60);
+      return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    }
+
+    // Filtrar canciones por búsqueda
+    function filterSongs() {
+      const searchTerm = searchInput.value.toLowerCase();
+
+      songElements.forEach((songElement, index) => {
+        const song = playlist[index];
+        const songTitle = song.title.toLowerCase();
+        const songArtist = song.artist.toLowerCase();
+
+        if (songTitle.includes(searchTerm) || songArtist.includes(searchTerm)) {
+          songElement.style.display = 'block';
+        } else {
+          songElement.style.display = 'none';
+        }
+      });
+    }
+
+    // Eventos
+    audio.addEventListener('timeupdate', updateProgress);
+    audio.addEventListener('ended', nextSong);
+    progress.addEventListener('input', setProgress);
+
+    playButton.addEventListener('click', playPause);
+    prevButton.addEventListener('click', () => {
+      currentSongIndex = (currentSongIndex - 1 + playlist.length) % playlist.length;
+      loadSong(currentSongIndex);
+      audio.play();
     });
- 
-    document.getElementById("next").addEventListener("click", playNextMusic);
-    document.getElementById("prev").addEventListener("click", playPreviousMusic);
+    nextButton.addEventListener('click', nextSong);
+    randomButton.addEventListener('click', toggleRandomMode);
 
-    audio.addEventListener("ended", playNextMusic);
-
-    audio.addEventListener("timeupdate", () => {
-      const currentTime = Math.floor(audio.currentTime);
-      const duration = Math.floor(audio.duration);
-      currentTimeEl.textContent = formatTime(currentTime);
-      durationEl.textContent = formatTime(duration);
-      const progressWidth = (audio.currentTime / audio.duration) * 100;
-      progress.style.width = progressWidth + "%";
-    });
-
-    progressBar.addEventListener("click", (e) => {
-      const width = progressBar.clientWidth;
-      const offsetX = e.offsetX;
-      const duration = audio.duration;
-      audio.currentTime = (offsetX / width) * duration;
-    });
-
-    searchInput.addEventListener("input", (e) => {
-      const searchTerm = e.target.value.toLowerCase();
-      const items = document.querySelectorAll(".music-item");
-      items.forEach((item) => {
-        const isVisible = item.textContent.toLowerCase().includes(searchTerm);
-        item.style.display = isVisible ? "block" : "none";
+    songElements.forEach((songElement, index) => {
+      songElement.addEventListener('click', () => {
+        currentSongIndex = index;
+        loadSong(index);
+        audio.play();
+        playButton.textContent = '⏸';
       });
     });
 
-    function formatTime(seconds) {
-      const mins = Math.floor(seconds / 60);
-      const secs = Math.floor(seconds % 60);
-      return `${mins < 10 ? "0" : ""}${mins}:${secs < 10 ? "0" : ""}${secs}`;
-    }
+    searchInput.addEventListener('input', filterSongs);
 
-    loadMusic();
+    // Cargar la primera canción
+    loadSong(currentSongIndex);
   </script>
 </body>
 </html>
