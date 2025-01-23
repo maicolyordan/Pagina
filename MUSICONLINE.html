@@ -317,15 +317,13 @@
     ];
 
     let currentSongIndex = 0;
-    let randomMode = false;
 
     function loadSong(index) {
       const song = playlist[index];
       audio.src = song.src;
       nowPlaying.textContent = `Reproduciendo: ${song.title}`;
       playButton.textContent = '▶';
-      
-      // Actualiza la apariencia de las canciones
+
       songElements.forEach(songElement => {
         songElement.classList.remove('playing');
       });
@@ -344,25 +342,23 @@
 
     function nextSong() {
       const currentArtist = playlist[currentSongIndex].artist;
-      const halfwayPoint = audio.duration / 2;
 
-      if (audio.currentTime < halfwayPoint) {
-        // Si no se ha reproducido hasta la mitad, selecciona otra canción de un artista diferente
+      if (audio.currentTime > 10) {
+        // Busca otra canción del mismo artista
+        let nextIndex = (currentSongIndex + 1) % playlist.length;
+
+        while (playlist[nextIndex].artist !== currentArtist) {
+          nextIndex = (nextIndex + 1) % playlist.length;
+          if (nextIndex === currentSongIndex) break;
+        }
+        currentSongIndex = nextIndex;
+      } else {
+        // Busca una canción de un artista diferente
         let nextIndex = currentSongIndex;
 
         while (nextIndex === currentSongIndex || playlist[nextIndex].artist === currentArtist) {
           nextIndex = Math.floor(Math.random() * playlist.length);
         }
-
-        currentSongIndex = nextIndex;
-      } else {
-        // Si ya pasó la mitad, sigue con la lógica normal
-        let nextIndex = (currentSongIndex + 1) % playlist.length;
-
-        while (playlist[nextIndex].artist !== currentArtist) {
-          nextIndex = (nextIndex + 1) % playlist.length;
-        }
-
         currentSongIndex = nextIndex;
       }
 
@@ -371,20 +367,10 @@
       playButton.textContent = '⏸';
     }
 
-    function toggleRandomMode() {
-      randomMode = !randomMode;
-      randomButton.classList.toggle('active', randomMode);
-      randomButton.textContent = randomMode ? '❌' : '🔀';
-    }
-
     function updateProgress() {
       progress.value = (audio.currentTime / audio.duration) * 100 || 0;
       currentTime.textContent = formatTime(audio.currentTime);
       duration.textContent = formatTime(audio.duration);
-    }
-
-    function setProgress() {
-      audio.currentTime = (progress.value / 100) * audio.duration;
     }
 
     function formatTime(time) {
@@ -393,36 +379,19 @@
       return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
     }
 
-    // Filtrar canciones por búsqueda
-    function filterSongs() {
-      const searchTerm = searchInput.value.toLowerCase();
-
-      songElements.forEach((songElement, index) => {
-        const song = playlist[index];
-        const songTitle = song.title.toLowerCase();
-        const songArtist = song.artist.toLowerCase();
-
-        if (songTitle.includes(searchTerm) || songArtist.includes(searchTerm)) {
-          songElement.style.display = 'block';
-        } else {
-          songElement.style.display = 'none';
-        }
-      });
+    function seekTo() {
+      const seekToTime = (progress.value / 100) * audio.duration;
+      audio.currentTime = seekToTime;
     }
 
     // Eventos
     audio.addEventListener('timeupdate', updateProgress);
     audio.addEventListener('ended', nextSong);
-    progress.addEventListener('input', setProgress);
-
     playButton.addEventListener('click', playPause);
-    prevButton.addEventListener('click', () => {
-      currentSongIndex = (currentSongIndex - 1 + playlist.length) % playlist.length;
-      loadSong(currentSongIndex);
-      audio.play();
-    });
     nextButton.addEventListener('click', nextSong);
-    randomButton.addEventListener('click', toggleRandomMode);
+
+    // Permitir adelantar o retroceder con el slider
+    progress.addEventListener('input', seekTo);
 
     songElements.forEach((songElement, index) => {
       songElement.addEventListener('click', () => {
@@ -433,9 +402,7 @@
       });
     });
 
-    searchInput.addEventListener('input', filterSongs);
-
-    // Cargar la primera canción
+    // Carga inicial
     loadSong(currentSongIndex);
   </script>
 </body>
