@@ -342,7 +342,7 @@
     function nextSong() {
       const currentArtist = playlist[currentSongIndex].artist;
 
-      if (audio.currentTime > 10) {
+      if (audio.currentTime > 3) {
         // Busca otra canción del mismo artista
         let nextIndex = (currentSongIndex + 1) % playlist.length;
 
