@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reproductor de Audio</title>
   <style>
-    body {
+body {
   background: url('https://img.freepik.com/fotos-premium/imagen-colorida-nota-musical-palabra-musica-ella_854727-88986.jpg') no-repeat center center fixed;
   background-size: cover;
   color: #fff;
@@ -379,6 +379,7 @@ main {
     ];
 
     let currentSongIndex = 0;
+    const playHistory = {};
 
     function loadSong(index) {
       const song = playlist[index];
@@ -400,20 +401,6 @@ main {
         audio.pause();
         playButton.textContent = '▶';
       }
-    }
-
-    function nextSong() {
-      const currentArtist = playlist[currentSongIndex].artist;
-      let nextIndex = (currentSongIndex + 1) % playlist.length;
-
-      while (playlist[nextIndex].artist !== currentArtist) {
-        nextIndex = (nextIndex + 1) % playlist.length;
-      }
-
-      currentSongIndex = nextIndex;
-      loadSong(currentSongIndex);
-      audio.play();
-      playButton.textContent = '⏸';
     }
 
     function updateProgress() {
@@ -444,6 +431,37 @@ main {
           songElement.style.display = 'none';
         }
       });
+    }
+
+    function updateHistory(artist) {
+      if (playHistory[artist]) {
+        playHistory[artist]++;
+      } else {
+        playHistory[artist] = 1;
+      }
+    }
+
+    function nextSong() {
+      const currentArtist = playlist[currentSongIndex].artist;
+      updateHistory(currentArtist);
+
+      const weightedPlaylist = [];
+      playlist.forEach((song, index) => {
+        const weight = playHistory[song.artist] || 1;
+        for (let i = 0; i < weight; i++) {
+          weightedPlaylist.push(index);
+        }
+      });
+
+      let nextIndex;
+      do {
+        nextIndex = weightedPlaylist[Math.floor(Math.random() * weightedPlaylist.length)];
+      } while (nextIndex === currentSongIndex);
+
+      currentSongIndex = nextIndex;
+      loadSong(currentSongIndex);
+      audio.play();
+      playButton.textContent = '⏸';
     }
 
     audio.addEventListener('timeupdate', updateProgress);
