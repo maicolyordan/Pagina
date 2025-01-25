@@ -167,7 +167,7 @@ main {
 <body>
   <input type="text" id="search" placeholder="Buscar canción..." />
   <div class="playlist">
-<div class="song" data-index="0">Daddy Yankee - Descontrol.mp3</div>
+    <div class="song" data-index="0">Daddy Yankee - Descontrol.mp3</div>
 <div class="song" data-index="1">Daddy Yankee - Limbo (Video Oficial).mp3</div>
 <div class="song" data-index="2">ySpace (feat. Wisin & Yandel).mp3</div>
 <div class="song" data-index="3">zuna - Si No Te Quiere Remix feat. Arcangel & Farruko (Audio Oficial).mp3</div>
@@ -379,7 +379,7 @@ main {
     ];
 
     let currentSongIndex = 0;
-    const playHistory = {};
+    const playHistory = {}; // Historial de canciones escuchadas
 
     function loadSong(index) {
       const song = playlist[index];
@@ -407,6 +407,11 @@ main {
       progress.value = (audio.currentTime / audio.duration) * 100 || 0;
       currentTime.textContent = formatTime(audio.currentTime);
       duration.textContent = formatTime(audio.duration);
+
+      // Registrar si la canción actual fue escuchada más de 10 segundos
+      if (audio.currentTime > 10 && !playHistory[playlist[currentSongIndex].artist]) {
+        updateHistory(playlist[currentSongIndex].artist);
+      }
     }
 
     function setProgress() {
@@ -417,6 +422,34 @@ main {
       const minutes = Math.floor(time / 60);
       const seconds = Math.floor(time % 60);
       return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    }
+
+    function updateHistory(artist) {
+      if (playHistory[artist]) {
+        playHistory[artist]++;
+      } else {
+        playHistory[artist] = 1;
+      }
+    }
+
+    function nextSong() {
+      const artistWeights = Object.entries(playHistory)
+        .map(([artist, count]) => ({ artist, weight: count }));
+
+      const weightedPlaylist = playlist.reduce((acc, song, index) => {
+        const weight = artistWeights.find(a => a.artist === song.artist)?.weight || 1;
+        return acc.concat(Array(weight).fill(index));
+      }, []);
+
+      let nextIndex;
+      do {
+        nextIndex = weightedPlaylist[Math.floor(Math.random() * weightedPlaylist.length)];
+      } while (nextIndex === currentSongIndex);
+
+      currentSongIndex = nextIndex;
+      loadSong(currentSongIndex);
+      audio.play();
+      playButton.textContent = '⏸';
     }
 
     function filterSongs() {
@@ -431,37 +464,6 @@ main {
           songElement.style.display = 'none';
         }
       });
-    }
-
-    function updateHistory(artist) {
-      if (playHistory[artist]) {
-        playHistory[artist]++;
-      } else {
-        playHistory[artist] = 1;
-      }
-    }
-
-    function nextSong() {
-      const currentArtist = playlist[currentSongIndex].artist;
-      updateHistory(currentArtist);
-
-      const weightedPlaylist = [];
-      playlist.forEach((song, index) => {
-        const weight = playHistory[song.artist] || 1;
-        for (let i = 0; i < weight; i++) {
-          weightedPlaylist.push(index);
-        }
-      });
-
-      let nextIndex;
-      do {
-        nextIndex = weightedPlaylist[Math.floor(Math.random() * weightedPlaylist.length)];
-      } while (nextIndex === currentSongIndex);
-
-      currentSongIndex = nextIndex;
-      loadSong(currentSongIndex);
-      audio.play();
-      playButton.textContent = '⏸';
     }
 
     audio.addEventListener('timeupdate', updateProgress);
