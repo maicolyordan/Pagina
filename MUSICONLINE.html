@@ -167,7 +167,7 @@ main {
 <body>
   <input type="text" id="search" placeholder="Buscar canción..." />
   <div class="playlist">
-    <div class="song" data-index="0">Daddy Yankee - Descontrol.mp3</div>
+   <div class="song" data-index="0">Daddy Yankee - Descontrol.mp3</div>
 <div class="song" data-index="1">Daddy Yankee - Limbo (Video Oficial).mp3</div>
 <div class="song" data-index="2">ySpace (feat. Wisin & Yandel).mp3</div>
 <div class="song" data-index="3">zuna - Si No Te Quiere Remix feat. Arcangel & Farruko (Audio Oficial).mp3</div>
@@ -433,18 +433,26 @@ main {
     }
 
     function nextSong() {
-      const artistWeights = Object.entries(playHistory)
-        .map(([artist, count]) => ({ artist, weight: count }));
+      const mostListenedArtist = Object.keys(playHistory).reduce((a, b) =>
+        playHistory[a] > playHistory[b] ? a : b, null);
 
-      const weightedPlaylist = playlist.reduce((acc, song, index) => {
-        const weight = artistWeights.find(a => a.artist === song.artist)?.weight || 1;
-        return acc.concat(Array(weight).fill(index));
-      }, []);
+      const sameArtistSongs = playlist.filter(
+        song => song.artist === mostListenedArtist
+      );
+      const otherSongs = playlist.filter(
+        song => song.artist !== mostListenedArtist
+      );
 
       let nextIndex;
-      do {
-        nextIndex = weightedPlaylist[Math.floor(Math.random() * weightedPlaylist.length)];
-      } while (nextIndex === currentSongIndex);
+      if (Math.random() < 0.7 && sameArtistSongs.length > 0) {
+        // 70% de probabilidad de elegir una canción del artista favorito
+        const randomSong = sameArtistSongs[Math.floor(Math.random() * sameArtistSongs.length)];
+        nextIndex = playlist.indexOf(randomSong);
+      } else {
+        // 30% de probabilidad de elegir una canción de otro artista
+        const randomSong = otherSongs[Math.floor(Math.random() * otherSongs.length)];
+        nextIndex = playlist.indexOf(randomSong);
+      }
 
       currentSongIndex = nextIndex;
       loadSong(currentSongIndex);
