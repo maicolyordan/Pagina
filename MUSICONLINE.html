@@ -167,7 +167,7 @@ main {
 <body>
   <input type="text" id="search" placeholder="Buscar canción..." />
   <div class="playlist">
-   <div class="song" data-index="0">Daddy Yankee - Descontrol.mp3</div>
+<div class="song" data-index="0">Daddy Yankee - Descontrol.mp3</div>
 <div class="song" data-index="1">Daddy Yankee - Limbo (Video Oficial).mp3</div>
 <div class="song" data-index="2">ySpace (feat. Wisin & Yandel).mp3</div>
 <div class="song" data-index="3">zuna - Si No Te Quiere Remix feat. Arcangel & Farruko (Audio Oficial).mp3</div>
@@ -378,8 +378,9 @@ main {
       { title: "REGUETON/Si Tu No Estas - Nicky Jam Ft De la Ghetto  Video Oficial.mp3", artist: "REGUETON", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/REGUETON/Si%20Tu%20No%20Estas%20-%20Nicky%20Jam%20Ft%20De%20la%20Ghetto%20%20Video%20Oficial.mp3" },
     ];
 
-    let currentSongIndex = 0;
-    const playHistory = {}; // Historial de canciones escuchadas
+    let currentSongIndex = parseInt(localStorage.getItem('currentSongIndex')) || 0;
+    const playHistory = JSON.parse(localStorage.getItem('playHistory')) || {};
+    const lastProgress = parseFloat(localStorage.getItem('lastProgress')) || 0;
 
     function loadSong(index) {
       const song = playlist[index];
@@ -391,6 +392,7 @@ main {
         songElement.classList.remove('playing');
       });
       songElements[index].classList.add('playing');
+      audio.currentTime = lastProgress; // Retomar desde el último progreso guardado
     }
 
     function playPause() {
@@ -408,10 +410,12 @@ main {
       currentTime.textContent = formatTime(audio.currentTime);
       duration.textContent = formatTime(audio.duration);
 
-      // Registrar si la canción actual fue escuchada más de 10 segundos
       if (audio.currentTime > 10 && !playHistory[playlist[currentSongIndex].artist]) {
         updateHistory(playlist[currentSongIndex].artist);
       }
+
+      // Guardar el progreso actual
+      localStorage.setItem('lastProgress', audio.currentTime);
     }
 
     function setProgress() {
@@ -430,6 +434,7 @@ main {
       } else {
         playHistory[artist] = 1;
       }
+      localStorage.setItem('playHistory', JSON.stringify(playHistory)); // Guardar historial en localStorage
     }
 
     function nextSong() {
@@ -445,16 +450,15 @@ main {
 
       let nextIndex;
       if (Math.random() < 0.7 && sameArtistSongs.length > 0) {
-        // 70% de probabilidad de elegir una canción del artista favorito
         const randomSong = sameArtistSongs[Math.floor(Math.random() * sameArtistSongs.length)];
         nextIndex = playlist.indexOf(randomSong);
       } else {
-        // 30% de probabilidad de elegir una canción de otro artista
         const randomSong = otherSongs[Math.floor(Math.random() * otherSongs.length)];
         nextIndex = playlist.indexOf(randomSong);
       }
 
       currentSongIndex = nextIndex;
+      localStorage.setItem('currentSongIndex', currentSongIndex); // Guardar índice de la canción actual
       loadSong(currentSongIndex);
       audio.play();
       playButton.textContent = '⏸';
@@ -479,6 +483,7 @@ main {
     playButton.addEventListener('click', playPause);
     prevButton.addEventListener('click', () => {
       currentSongIndex = (currentSongIndex - 1 + playlist.length) % playlist.length;
+      localStorage.setItem('currentSongIndex', currentSongIndex);
       loadSong(currentSongIndex);
       audio.play();
     });
@@ -488,6 +493,7 @@ main {
     songElements.forEach((songElement, index) => {
       songElement.addEventListener('click', () => {
         currentSongIndex = index;
+        localStorage.setItem('currentSongIndex', currentSongIndex);
         loadSong(index);
         audio.play();
         playButton.textContent = '⏸';
