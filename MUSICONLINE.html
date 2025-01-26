@@ -572,7 +572,7 @@ main {
       duration.textContent = formatTime(audio.duration);
 
       // Registrar si la canción actual fue escuchada más de 10 segundos
-      if (audio.currentTime > 10 && !playHistory[playlist[currentSongIndex].artist]) {
+      if (audio.currentTime > 15 && !playHistory[playlist[currentSongIndex].artist]) {
         updateHistory(playlist[currentSongIndex].artist);
       }
     }
