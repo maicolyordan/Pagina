@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reproductor de Audio</title>
- <style>
-body {
+  <style>
+ body {
   background: url('https://img.freepik.com/fotos-premium/imagen-colorida-nota-musical-palabra-musica-ella_854727-88986.jpg') no-repeat center center fixed;
   background-size: cover;
   color: #fff;
@@ -167,7 +167,7 @@ main {
 <body>
   <input type="text" id="search" placeholder="Buscar canción..." />
   <div class="playlist">
-    <div class="song" data-index="0">ELECTRONICA/Afrojack - Annies Theme.mp3</div>
+ <div class="song" data-index="0">ELECTRONICA/Afrojack - Annies Theme.mp3</div>
 <div class="song" data-index="1">ELECTRONICA/Again and again - Basto!.mp3</div>
 <div class="song" data-index="2">ELECTRONICA/Akncent - Thas my name.mp3</div>
 <div class="song" data-index="3">ELECTRONICA/Akon - Beautiful.mp3</div>
@@ -376,7 +376,7 @@ main {
     const searchInput = document.getElementById('search');
 
     const playlist = [
-   
+
  { title: "ELECTRONICA/Afrojack - Annies Theme.mp3", artist: "ELECTRONICA", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/ELECTRONICA/Afrojack%20-%20Annies%20Theme.mp3" },
  { title: "ELECTRONICA/Again and again - Basto!.mp3", artist: "ELECTRONICA", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/ELECTRONICA/Again%20and%20again%20-%20Basto!.mp3" },
  { title: "ELECTRONICA/Akncent - Thas my name.mp3", artist: "ELECTRONICA", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/ELECTRONICA/Akncent%20-%20Thas%20my%20name.mp3" },
@@ -620,6 +620,7 @@ main {
 
     let currentSongIndex = 0;
     const playHistory = {};
+    const artistHistory = {}; // Keeps track of how much each artist is liked
 
     function loadSong(index) {
       const song = playlist[index];
@@ -648,7 +649,7 @@ main {
       currentTime.textContent = formatTime(audio.currentTime);
       duration.textContent = formatTime(audio.duration);
 
-      if (audio.currentTime > 15) {
+      if (audio.currentTime > 10) {
         updateHistory(playlist[currentSongIndex].artist);
       }
     }
@@ -665,10 +666,11 @@ main {
 
     function updateHistory(artist) {
       playHistory[artist] = (playHistory[artist] || 0) + 1;
+      artistHistory[artist] = (artistHistory[artist] || 0) + 1; // Increase artist history
     }
 
     function getTopArtists() {
-      return Object.entries(playHistory)
+      return Object.entries(artistHistory)
         .sort((a, b) => b[1] - a[1])
         .slice(0, 2)
         .map(entry => entry[0]);
@@ -680,12 +682,12 @@ main {
       const otherSongs = playlist.filter(song => song.artist !== topArtist1 && song.artist !== topArtist2);
 
       let nextIndex;
-      if (Math.random() < 0.8 && topSongs.length > 0) {
-        // 80% de probabilidad de elegir una canción de los 2 artistas más escuchados
+      if (Math.random() < 0.9 && topSongs.length > 0) {
+        // 90% de probabilidad de elegir una canción de los 2 artistas más escuchados
         const randomSong = topSongs[Math.floor(Math.random() * topSongs.length)];
         nextIndex = playlist.indexOf(randomSong);
       } else {
-        // 20% de probabilidad de elegir una canción aleatoria
+        // 10% de probabilidad de elegir una canción aleatoria
         const randomSong = otherSongs[Math.floor(Math.random() * otherSongs.length)];
         nextIndex = playlist.indexOf(randomSong);
       }
@@ -710,15 +712,22 @@ main {
       });
     }
 
-    function playNextSongFromSameArtist() {
-      const currentSong = playlist[currentSongIndex];
-      const sameArtistSongs = playlist.filter(song => song.artist === currentSong.artist);
-      const nextSongIndex = (playlist.indexOf(currentSong) + 1) % sameArtistSongs.length;
-      currentSongIndex = playlist.indexOf(sameArtistSongs[nextSongIndex]);
+    // Event listener for when the song ends
+    audio.addEventListener('ended', () => {
+      const currentArtist = playlist[currentSongIndex].artist;
+      const artistSongs = playlist.filter(song => song.artist === currentArtist);
+      let nextSongIndex = artistSongs.findIndex(song => song.title === playlist[currentSongIndex].title) + 1;
+
+      if (nextSongIndex >= artistSongs.length) {
+        nextSongIndex = 0; // If it's the last song of the artist, loop back to the first song of that artist
+      }
+
+      const nextSong = artistSongs[nextSongIndex];
+      currentSongIndex = playlist.indexOf(nextSong);
       loadSong(currentSongIndex);
       audio.play();
       playButton.textContent = '⏸';
-    }
+    });
 
     audio.addEventListener('timeupdate', updateProgress);
     progress.addEventListener('input', setProgress);
@@ -739,8 +748,6 @@ main {
         playButton.textContent = '⏸';
       });
     });
-
-    audio.addEventListener('ended', playNextSongFromSameArtist);
 
     loadSong(currentSongIndex);
   </script>
