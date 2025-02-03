@@ -1,15 +1,351 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reproductor de Audio</title>
+  <style>
+ body {
+  background: url('https://img.freepik.com/fotos-premium/imagen-colorida-nota-musical-palabra-musica-ella_854727-88986.jpg') no-repeat center center fixed;
+  background-size: cover;
+  color: #fff;
+  font-family: 'Poppins', Arial, sans-serif;
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden; /* Evitar desplazamiento horizontal */
+}
 
- NOMBRE DE PELICULA: VENCEDORES Y VENCIDOS 
+.playlist {
+  flex: 1;
+  overflow-y: auto; /* Permitir desplazamiento vertical */
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.6); /* Fondo oscuro translúcido */
+  border-radius: 8px;
+  margin: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra para dar profundidad */
+}
 
-LOGO :https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJ3JcQxW5TCNmN_LNt_TZIT_q-otELkLjZGXADSHRGqg&s
+.song {
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #1e1e1e, #333);
+  text-align: center;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 500;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
 
-REPRODUTOR:
-https://m.ok.ru/dk?st.cmd=movieLayer&st.retLoc=search&st.rtu=%2Fdk%3Fst.cmd%3DuserMovies%26st.vdsrch%3DVencedores%2By%2BVencidos%2B1983%26_prevCmd%3DuserMovies%26tkn%3D5717&st.mvId=4521177320025&_prevCmd=userMovies&tkn=4943&_cl.id=1715630047690&_clickLog=%5B%7B%22qId%22%3A%22cafcd8d1051abbb741f35d3bb38ced78%22%2C%22query%22%3A%22Vencedores%20y%20Vencidos%201983%22%2C%22position%22%3A0%2C%22entityId%22%3A%224521177320025%22%2C%22searchActionEntity%22%3A%22VIDEO%22%2C%22searchActionCard%22%3A%22MOVIE_CARD%22%2C%22searchActionLocation%22%3A%22ANON_GLOBAL_SEARCH_VIDEO%22%2C%22searchActionTarget%22%3A%22CLICKABLE_AREA%22%2C%22target%22%3A%22videoSearch%22%7D%5D&_cl.sID=userMovies#lst
+.song:hover {
+  background: linear-gradient(135deg, #333, #555);
+  transform: scale(1.02);
+}
 
-NOMBRE DE PELICULA : PIE PEQUEÑO 
+.song.playing {
+  background-color: #333;
+  color: lime;
+  font-weight: bold;
+}
 
-LOGO :https://www17.pelisplushd.to/poster/pie-pequeno.jpg
+.audio-player {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  padding: 15px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-top: 2px solid #444;
+  box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+}
 
-REPRODUTOR : 
+.now-playing {
+  font-size: 18px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
 
-https://pelistop.co/embed-9ycvx3rtk9o0.html
+.time {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 90%;
+  color: #ddd;
+  font-size: 14px;
+}
+
+#progress {
+  flex: 1;
+  margin: 0 10px;
+  appearance: none;
+  background: #555;
+  height: 6px;
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+}
+
+#progress::-webkit-slider-thumb {
+  appearance: none;
+  background: cyan;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  box-shadow: 0 0 8px cyan;
+  cursor: pointer;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  margin-top: 15px;
+}
+
+.control-button,
+.play-button {
+  background: none;
+  border: none;
+  color: cyan;
+  font-size: 28px;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.control-button:hover,
+.play-button:hover {
+  color: lime;
+  transform: scale(1.2);
+}
+
+.play-button {
+  font-size: 40px;
+}
+
+#search {
+  margin: 10px;
+  padding: 10px;
+  font-size: 16px;
+  width: calc(100% - 20px);
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+#search::placeholder {
+  color: #999;
+  font-style: italic;
+}
+
+#search:focus {
+  outline: 2px solid cyan;
+  box-shadow: 0 0 10px cyan;
+}
+
+/* Asegura que no haya desplazamiento horizontal */
+html, body {
+  overflow-x: hidden; /* Evita desplazamiento horizontal global */
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 80px); /* Ajusta la altura para tener espacio para el reproductor */
+  overflow: hidden; /* Evitar desplazamiento no deseado */
+}
+  </style>
+</head>
+<body>
+  <input type="text" id="search" placeholder="Buscar canción..." />
+  <div class="playlist">
+ <div class="song" data-index="0">ELECTRONICA/Afrojack - Annies Theme.mp3</div>
+<div class="song" data-index="1">ELECTRONICA/Again and again - Basto!.mp3</div>
+<div class="song" data-index="2">ELECTRONICA/Akncent - Thas my name.mp3</div>
+<div class="song" data-index="3">ELECTRONICA/Akon - Beautiful.mp3</div>
+
+
+
+  </div>
+  <div class="audio-player">
+    <div class="now-playing" id="now-playing">Reproduciendo: Canción 1</div>
+    <div class="time">
+      <span id="current-time">00:00</span>
+      <input type="range" id="progress" value="0" max="100">
+      <span id="duration">00:00</span>
+    </div>
+    <div class="buttons">
+      <button id="prev" class="control-button">⏮</button>
+      <button id="play" class="play-button">▶</button>
+      <button id="next" class="control-button">⏭</button>
+    </div>
+  </div>
+  <audio id="audio"></audio>
+  <script>
+    const audio = document.getElementById('audio');
+    const playButton = document.getElementById('play');
+    const progress = document.getElementById('progress');
+    const currentTime = document.getElementById('current-time');
+    const duration = document.getElementById('duration');
+    const prevButton = document.getElementById('prev');
+    const nextButton = document.getElementById('next');
+    const nowPlaying = document.getElementById('now-playing');
+    const songElements = document.querySelectorAll('.song');
+    const searchInput = document.getElementById('search');
+
+    const playlist = [
+
+ { title: "ELECTRONICA/Afrojack - Annies Theme.mp3", artist: "ELECTRONICA", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/ELECTRONICA/Afrojack%20-%20Annies%20Theme.mp3" },
+ { title: "ELECTRONICA/Again and again - Basto!.mp3", tist: "ELECTRONICA", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/ELECTRONICA/Again%20and%20again%20-%20Basto!.mp3" },
+ { title: "ELECTRONICA/Akncent - Thas my name.mp3", artist: "ELECTRONICA", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/ELECTRONICA/Akncent%20-%20Thas%20my%20name.mp3" },
+ { title: "ELECTRONICA/Akon - Beautiful.mp3", artist: "ELECTRONICA", src: "https://github.com/musicaom/Musica-/raw/refs/heads/main/ELECTRONICA/Akon%20-%20Beautiful.mp3" },
+
+
+
+
+    ];
+
+    let currentSongIndex = 0;
+    const playHistory = {};
+    const artistHistory = {}; // Keeps track of how much each artist is liked
+
+    function loadSong(index) {
+      const song = playlist[index];
+      audio.src = song.src;
+      nowPlaying.textContent = `Reproduciendo: ${song.title}`;
+      playButton.textContent = '▶';
+
+      songElements.forEach(songElement => {
+        songElement.classList.remove('playing');
+      });
+      songElements[index].classList.add('playing');
+    }
+
+    function playPause() {
+      if (audio.paused) {
+        audio.play();
+        playButton.textContent = '⏸';
+      } else {
+        audio.pause();
+        playButton.textContent = '▶';
+      }
+    }
+
+    function updateProgress() {
+      progress.value = (audio.currentTime / audio.duration) * 100 || 0;
+      currentTime.textContent = formatTime(audio.currentTime);
+      duration.textContent = formatTime(audio.duration);
+
+      if (audio.currentTime > 30) {
+        updateHistory(playlist[currentSongIndex].artist);
+      }
+    }
+
+    function setProgress() {
+      audio.currentTime = (progress.value / 100) * audio.duration;
+    }
+
+    function formatTime(time) {
+      const minutes = Math.floor(time / 60);
+      const seconds = Math.floor(time % 60);
+      return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    }
+
+    function updateHistory(artist) {
+      playHistory[artist] = (playHistory[artist] || 0) + 1;
+      artistHistory[artist] = (artistHistory[artist] || 0) + 1; // Increase artist history
+    }
+
+    function getTopArtists() {
+      return Object.entries(artistHistory)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 2)
+        .map(entry => entry[0]);
+    }
+
+    function nextSong() {
+      const [topArtist1, topArtist2] = getTopArtists();
+      const topSongs = playlist.filter(song => song.artist === topArtist1 || song.artist === topArtist2);
+      const otherSongs = playlist.filter(song => song.artist !== topArtist1 && song.artist !== topArtist2);
+
+      let nextIndex;
+      if (Math.random() < 0.9 && topSongs.length > 0) {
+        // 90% de probabilidad de elegir una canción de los 2 artistas más escuchados
+        const randomSong = topSongs[Math.floor(Math.random() * topSongs.length)];
+        nextIndex = playlist.indexOf(randomSong);
+      } else {
+        // 10% de probabilidad de elegir una canción aleatoria
+        const randomSong = otherSongs[Math.floor(Math.random() * otherSongs.length)];
+        nextIndex = playlist.indexOf(randomSong);
+      }
+
+      currentSongIndex = nextIndex;
+      loadSong(currentSongIndex);
+      audio.play();
+      playButton.textContent = '⏸';
+    }
+
+    function filterSongs() {
+      const searchTerm = searchInput.value.toLowerCase();
+      songElements.forEach((songElement, index) => {
+        const song = playlist[index];
+        const songTitle = song.title.toLowerCase();
+
+        if (songTitle.includes(searchTerm)) {
+          songElement.style.display = 'block';
+        } else {
+          songElement.style.display = 'none';
+        }
+      });
+    }
+
+    // Event listener for when the song ends
+    audio.addEventListener('ended', () => {
+      const currentArtist = playlist[currentSongIndex].artist;
+      const artistSongs = playlist.filter(song => song.artist === currentArtist);
+      let nextSongIndex = artistSongs.findIndex(song => song.title === playlist[currentSongIndex].title) + 1;
+
+      if (nextSongIndex >= artistSongs.length) {
+        nextSongIndex = 0; // If it's the last song of the artist, loop back to the first song of that artist
+      }
+
+      const nextSong = artistSongs[nextSongIndex];
+      currentSongIndex = playlist.indexOf(nextSong);
+      loadSong(currentSongIndex);
+      audio.play();
+      playButton.textContent = '⏸';
+    });
+
+    audio.addEventListener('timeupdate', updateProgress);
+    progress.addEventListener('input', setProgress);
+    playButton.addEventListener('click', playPause);
+    prevButton.addEventListener('click', () => {
+      currentSongIndex = (currentSongIndex - 1 + playlist.length) % playlist.length;
+      loadSong(currentSongIndex);
+      audio.play();
+    });
+    nextButton.addEventListener('click', nextSong);
+    searchInput.addEventListener('input', filterSongs);
+
+    songElements.forEach((songElement, index) => {
+      songElement.addEventListener('click', () => {
+        currentSongIndex = index;
+        loadSong(index);
+        audio.play();
+        playButton.textContent = '⏸';
+      });
+    });
+
+    loadSong(currentSongIndex);
+    
+  </script>
+</body>
+</html>
