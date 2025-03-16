@@ -1,124 +1,61 @@
- <!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirección</title>
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background-color: black;
-            position: relative;
-        }
-        .fullscreen-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-    </style>
-    <script>
-        // Mostrar la imagen por 5 segundos antes de redirigir
-        window.onload = function() {
-            setTimeout(function() {
-                window.location.href = "https://maicolyordan.github.io/Evoluci-nTV-/Inicio.html";
-            }, 5000); // Redirige después de 5 segundos
-        };
-    </script>
-</head>
-<body>
-
-    <!-- Imagen a pantalla completa -->
-    <img src="https://i.postimg.cc/dQfgLrfV/IMG-20221231-124201.jpg" alt="Imagen completa" class="fullscreen-image">
-</body>
-</html>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirección</title>
+    <title>Página de Carga</title>
     <style>
-        body, html {
+        * {
             margin: 0;
             padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background-color: black;
-            position: relative;
+            box-sizing: border-box;
         }
-        .fullscreen-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            position: absolute;
-            top: 0;
-            left: 0;
+        body {
+            width: 100vw;
+            height: 100vh;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: flex-end; /* Mueve el contenido hacia abajo */
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding-bottom: 50px; /* Espacio extra desde el borde inferior */
+        }
+        .loading {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 15px 25px;
+            border-radius: 10px;
         }
     </style>
-    <script>
-        // Mostrar la imagen por 5 segundos antes de redirigir
-        window.onload = function() {
-            setTimeout(function() {
-                window.location.href = "https://maicolyordan.github.io/Evoluci-nTV-/Inicio.html";
-            }, 5000); // Redirige después de 5 segundos
-        };
-    </script>
 </head>
 <body>
-    <!-- Imagen a pantalla completa -->
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDVH9h9L8gB7ycQ3Pbp-nYYGPMUdItGS8VRg&s" alt="Imagen completa" class="fullscreen-image">
+    <div class="loading">Cargando...</div>
 
-</body><!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirección</title>
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background-color: black;
-            position: relative;
-        }
-        .fullscreen-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-    </style>
+<iframe src="https://aplicacionetv.wordpress.com/" width="30" height="5"></iframe>
+
+
     <script>
-        // Mostrar la imagen por 5 segundos antes de redirigir
-        window.onload = function() {
-            setTimeout(function() {
-                window.location.href = 
- "https://maicolyordan.github.io/Evoluci-nTV-/Inicio.html";
-            }, 5000); // Redirige después de 5 segundos
-        };
+        function actualizarFondo() {
+            if (window.matchMedia("(orientation: landscape)").matches) {
+                document.body.style.backgroundImage = "url('https://media.themoviedb.org/t/p/w1000_and_h563_face/ywe9S1cOyIhR5yWzK7511NuQ2YX.jpg')";
+            } else {
+                document.body.style.backgroundImage = "url('https://pics.filmaffinity.com/captain_america_brave_new_world-589232463-mmed.jpg')";
+            }
+        }
+
+        // Ejecutar al cargar la página
+        actualizarFondo();
+
+        // Detectar cambios de orientación
+        window.addEventListener("resize", actualizarFondo);
+
+        // Redirigir después de 5 segundos
+        setTimeout(() => {
+            window.location.href = "https://maicolyordan.github.io/Evoluci-nTV-/Inicio.html";
+        }, 5000);
     </script>
-</head>
-<body>
-    <!-- Imagen a pantalla completa -->
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDVH9h9L8gB7ycQ3Pbp-nYYGPMUdItGS8VRg&s" alt="Imagen completa" class="fullscreen-image">
 </body>
 </html>
-</html>
-
-
-Y que tenga un iframe encima de la imagen
-Y que tenga un iframe encima de la imagen
