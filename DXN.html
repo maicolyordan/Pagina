@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DXN</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        input {
+            width: 100%;
+            border: none;
+            background: transparent;
+        }
+        img {
+            width: 50px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <table id="tabla">
+        <thead>
+            <tr>
+                <th>IMAGEN</th>
+                <th>PRODUCTOS</th>
+                <th>PRECIO</th>
+                <th>PV</th>
+                <th>CANTIDAD</th>
+                <th>TOTAL PV</th>
+                <th>TOTAL</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td contenteditable="true"><img src="https://via.placeholder.com/50" alt="Producto"></td>
+                <td contenteditable="true">NON DAIRY CREAMER</td>
+                <td contenteditable="true" class="precio">54</td>
+                <td contenteditable="true" class="pv">1.5</td>
+                <td contenteditable="true" class="unidad">0</td>
+                <td class="total_pv">0</td>
+                <td class="total">0</td>
+            </tr>
+            
+            <tr>
+                <td contenteditable="true"><img src="https://via.placeholder.com/50" alt="Producto"></td>
+                <td contenteditable="true">APPLE FERMENTED</td>
+                <td contenteditable="true" class="precio">170</td>
+                <td contenteditable="true" class="pv">4.5</td>
+                <td contenteditable="true" class="unidad">0</td>
+                <td class="total_pv">0</td>
+                <td class="total">0</td>
+            </tr>
+
+ 
+            <!-- Más filas aquí -->
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="6" style="text-align:right; font-weight:bold;">Total PV:</td>
+                <td id="total_pv">0</td>
+            </tr>
+            <tr>
+                <td colspan="6" style="text-align:right; font-weight:bold;">Total:</td>
+                <td id="total">0</td>
+            </tr>
+        </tfoot>
+    </table>
+    
+    <script>
+    function calcularTotal() {
+        let filas = document.querySelectorAll("tbody tr");
+        let totalPV = 0;
+        let total = 0;
+        
+        filas.forEach(fila => {
+            let precio = parseFloat(fila.querySelector(".precio").innerText) || 0;
+            let pv = parseFloat(fila.querySelector(".pv").innerText) || 0;
+            let unidad = parseFloat(fila.querySelector(".unidad").innerText) || 0;
+
+            // Verificar si la unidad es 0, en cuyo caso los totales serán 0
+            if (unidad === 0) {
+                fila.querySelector(".total_pv").innerText = '0.00';
+                fila.querySelector(".total").innerText = '0.00';
+            } else {
+                // Cálculo de TOTAL PV (PV * Unidad)
+                let totalPVFila = pv * unidad;
+                
+                // Cálculo de TOTAL (PRECIO SC * UNIDAD)
+                let totalFila = precio * unidad;
+                
+                // Actualizar los valores en las celdas correspondientes
+                fila.querySelector(".total_pv").innerText = totalPVFila.toFixed(2);
+                fila.querySelector(".total").innerText = totalFila.toFixed(2);
+                
+                // Sumar los totales generales
+                totalPV += totalPVFila;
+                total += totalFila;
+            }
+        });
+        
+        // Actualizar los totales generales en el pie de la tabla
+        document.getElementById("total_pv").innerText = totalPV.toFixed(2);
+        document.getElementById("total").innerText = total.toFixed(2);  // Total basado en PRECIO SC * UNIDAD
+    }
+    
+    // Detectar cuando se haga un cambio en la tabla y recalcular los totales
+    document.querySelectorAll("tbody td").forEach(td => {
+        td.addEventListener("input", calcularTotal);
+    });
+    
+    // Calcular total inicial al cargar
+    calcularTotal();
+    </script>
+</body>
+</html>
