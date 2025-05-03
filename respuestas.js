@@ -14,7 +14,7 @@ const baseDeRespuestas = {
   "cuál es la fórmula del agua": "¡H2O, dos átomos de hidrógeno y uno de oxígeno! Fácil y vital.",
   "cómo se hace jabón": "Con grasa y ceniza. ¡Eso es alquimia moderna, ciencia pura!",
   "qué es la electricidad": "¡Movimiento ordenado de electrones! Poder puro en forma de ciencia.",
-  "pregunta aleatoria 16": "¡Como diría un genio... o sea yo, la solución está frente a ti!",
+  "Hola": "Hola, necesita ayuda para un trabajo cientifico ",
   "pregunta aleatoria 17": "¡Como diría un genio... o sea yo, la solución está frente a ti!",
   "pregunta aleatoria 18": "¡Es solo cuestión de aplicar la lógica correcta!",
   "pregunta aleatoria 19": "¡Exacto! Así empieza cualquier gran descubrimiento.",
