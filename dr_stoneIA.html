@@ -2,8 +2,13 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Asistente Virtual</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
@@ -18,24 +23,25 @@
       color: white;
       text-align: center;
       padding: 15px;
-      font-size: 24px;
+      font-size: 20px;
     }
 
     #chat {
       flex: 1;
-      padding: 20px;
+      padding: 10px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
     }
 
     .mensaje {
-      max-width: 70%;
-      padding: 12px;
-      margin: 8px 0;
-      border-radius: 12px;
-      font-size: 16px;
+      max-width: 80%;
+      padding: 10px;
+      margin: 6px 0;
+      border-radius: 10px;
+      font-size: 15px;
       line-height: 1.4;
+      word-wrap: break-word;
     }
 
     .usuario {
@@ -50,14 +56,14 @@
 
     #entrada {
       display: flex;
-      padding: 15px;
+      padding: 10px;
       background-color: white;
       border-top: 1px solid #ccc;
     }
 
     #mensaje {
       flex: 1;
-      font-size: 16px;
+      font-size: 15px;
       padding: 10px;
       border-radius: 8px;
       border: 1px solid #ccc;
@@ -65,9 +71,9 @@
     }
 
     button {
-      padding: 10px 20px;
-      margin-left: 10px;
-      font-size: 16px;
+      padding: 10px 15px;
+      margin-left: 8px;
+      font-size: 15px;
       border: none;
       border-radius: 8px;
       background-color: #10a37f;
