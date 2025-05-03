@@ -100,35 +100,45 @@
   <script src="respuestas.js"></script>
   <script>
     function agregarMensaje(texto, clase) {
-      const burbuja = document.createElement("div");
-      burbuja.className = `mensaje ${clase}`;
-      burbuja.innerText = texto;
-      document.getElementById("chat").appendChild(burbuja);
-      document.getElementById("chat").scrollTop = document.getElementById("chat").scrollHeight;
+  const burbuja = document.createElement("div");
+  burbuja.className = `mensaje ${clase}`;
+  burbuja.innerText = texto;
+  document.getElementById("chat").appendChild(burbuja);
+  document.getElementById("chat").scrollTop = document.getElementById("chat").scrollHeight;
+}
+
+function encontrarRespuesta(mensaje) {
+  const palabrasMensaje = mensaje.toLowerCase().split(/\W+/);
+  let mejorCoincidencia = "";
+  let maxCoincidencias = 0;
+
+  for (let clave in baseDeRespuestas) {
+    const palabrasClave = clave.toLowerCase().split(/\W+/);
+    const coincidencias = palabrasClave.filter(palabra => palabrasMensaje.includes(palabra)).length;
+
+    if (coincidencias > maxCoincidencias) {
+      maxCoincidencias = coincidencias;
+      mejorCoincidencia = clave;
     }
+  }
 
-    function responder() {
-      const input = document.getElementById("mensaje");
-      const mensajeUsuario = input.value.trim();
-      if (!mensajeUsuario) return;
+  return maxCoincidencias > 0 ? baseDeRespuestas[mejorCoincidencia] : "No estoy seguro de qué responder a eso.";
+}
 
-      agregarMensaje(mensajeUsuario, "usuario");
-      input.value = "";
+function responder() {
+  const input = document.getElementById("mensaje");
+  const mensajeUsuario = input.value.trim();
+  if (!mensajeUsuario) return;
 
-      const mensajeLower = mensajeUsuario.toLowerCase();
-      let respuesta = "No estoy seguro de qué responder a eso.";
+  agregarMensaje(mensajeUsuario, "usuario");
+  input.value = "";
 
-      for (let clave in baseDeRespuestas) {
-        if (mensajeLower.includes(clave)) {
-          respuesta = baseDeRespuestas[clave];
-          break;
-        }
-      }
+  const respuesta = encontrarRespuesta(mensajeUsuario);
 
-      setTimeout(() => {
-        agregarMensaje(respuesta, "asistente");
-      }, 500);
-    }
+  setTimeout(() => {
+    agregarMensaje(respuesta, "asistente");
+  }, 500);
+}
   </script>
 
 </body>
