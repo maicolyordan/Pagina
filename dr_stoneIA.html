@@ -1,0 +1,129 @@
+ <!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Asistente Virtual</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f4f4;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    header {
+      background-color: #10a37f;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      font-size: 24px;
+    }
+
+    #chat {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .mensaje {
+      max-width: 70%;
+      padding: 12px;
+      margin: 8px 0;
+      border-radius: 12px;
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .usuario {
+      background-color: #dcf8c6;
+      align-self: flex-end;
+    }
+
+    .asistente {
+      background-color: #e8e8e8;
+      align-self: flex-start;
+    }
+
+    #entrada {
+      display: flex;
+      padding: 15px;
+      background-color: white;
+      border-top: 1px solid #ccc;
+    }
+
+    #mensaje {
+      flex: 1;
+      font-size: 16px;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      outline: none;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin-left: 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background-color: #10a37f;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0d8668;
+    }
+  </style>
+</head>
+<body>
+
+  <header>Asistente Virtual</header>
+
+  <div id="chat"></div>
+
+  <div id="entrada">
+    <input type="text" id="mensaje" placeholder="Escribe tu mensaje...">
+    <button onclick="responder()">Enviar</button>
+  </div>
+
+  <script src="respuestas.js"></script>
+  <script>
+    function agregarMensaje(texto, clase) {
+      const burbuja = document.createElement("div");
+      burbuja.className = `mensaje ${clase}`;
+      burbuja.innerText = texto;
+      document.getElementById("chat").appendChild(burbuja);
+      document.getElementById("chat").scrollTop = document.getElementById("chat").scrollHeight;
+    }
+
+    function responder() {
+      const input = document.getElementById("mensaje");
+      const mensajeUsuario = input.value.trim();
+      if (!mensajeUsuario) return;
+
+      agregarMensaje(mensajeUsuario, "usuario");
+      input.value = "";
+
+      const mensajeLower = mensajeUsuario.toLowerCase();
+      let respuesta = "No estoy seguro de qué responder a eso.";
+
+      for (let clave in baseDeRespuestas) {
+        if (mensajeLower.includes(clave)) {
+          respuesta = baseDeRespuestas[clave];
+          break;
+        }
+      }
+
+      setTimeout(() => {
+        agregarMensaje(respuesta, "asistente");
+      }, 500);
+    }
+  </script>
+
+</body>
+</html>
