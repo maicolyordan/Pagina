@@ -1,0 +1,112 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Palabras de Fe</title>
+  <style>
+    body {
+      background: #e3f2fd;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      padding: 30px;
+      color: #0d47a1;
+    }
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      animation: aparecer 2s ease-in-out;
+    }
+    .versiculo, #animo {
+      font-size: 1.3em;
+      margin: 20px auto;
+      max-width: 600px;
+      opacity: 1;
+      transition: opacity 1s ease;
+    }
+    img {
+      max-width: 90%;
+      border-radius: 15px;
+      margin: 20px 0;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    #mensaje-final {
+      display: none;
+      font-size: 2.2em;
+      color: #1b5e20;
+      margin-top: 50px;
+      animation: bendicion 2s ease-in-out forwards;
+    }
+    @keyframes aparecer {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes bendicion {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Palabras de Fe</h1>
+  <div class="versiculo" id="versiculo"></div>
+  <img src="https://s1.significados.com/foto/biblia-og.jpg" alt="Biblia y luz" id="imagen">
+  <div id="animo"></div>
+  <div id="mensaje-final">¡Dios te bendiga!</div>
+
+  <script>
+    const versiculos = [
+      '"Jehová es mi luz y mi salvación; ¿de quién temeré?" — Salmo 27:1',
+      '"Todo lo puedo en Cristo que me fortalece." — Filipenses 4:13',
+      '"El Señor pelea por vosotros, y vosotros estaréis tranquilos." — Éxodo 14:14',
+      '"No temas, porque yo estoy contigo." — Isaías 41:10',
+      '"El gozo del Señor es mi fortaleza." — Nehemías 8:10'
+    ];
+
+    const animos = [
+      "¡Dios está contigo en cada paso!",
+      "¡Nunca estás solo, Él te sostiene!",
+      "¡Ánimo! Cada prueba trae una bendición.",
+      "¡Confía, el milagro está en camino!",
+      "¡Tú eres luz, no lo olvides!"
+    ];
+
+    let i = 0;
+
+    function mostrarMensajes() {
+      const versElem = document.getElementById('versiculo');
+      const animoElem = document.getElementById('animo');
+
+      if (i < versiculos.length) {
+        // Ocultar texto suavemente
+        versElem.style.opacity = 0;
+        animoElem.style.opacity = 0;
+
+        setTimeout(() => {
+          // Cambiar texto
+          versElem.textContent = versiculos[i];
+          animoElem.textContent = animos[i];
+          i++;
+
+          // Mostrar texto suavemente
+          versElem.style.opacity = 1;
+          animoElem.style.opacity = 1;
+
+          setTimeout(mostrarMensajes, 5000); // esperar 5s antes del siguiente cambio
+        }, 1000);
+      } else {
+        // Ocultar todo y mostrar mensaje final
+        document.getElementById('versiculo').style.display = 'none';
+        document.getElementById('animo').style.display = 'none';
+        document.getElementById('imagen').style.display = 'none';
+        document.getElementById('mensaje-final').style.display = 'block';
+      }
+    }
+
+    window.onload = mostrarMensajes;
+  </script>
+
+</body>
+</html>
