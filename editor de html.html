@@ -1,60 +1,393 @@
- <!DOCTYPE html><html lang="es">
+<!DOCTYPE html>
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editor HTML con Vista Previa</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; background-color: #f0f0f0; }
-        textarea { width: 90%; height: 500px; margin: 10px; padding: 10px; }
-        .color-container { margin-top: 20px; }
-        .color-box { display: inline-block; width: 50px; height: 50px; margin: 5px; border: 1px solid black; cursor: pointer; }
-        .color-picker { display: none; }
-    </style>
+  <meta charset="UTF-8" />
+  <title>Editor HTML Pro</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      background: #333;
+      color: white;
+      padding: 8px 10px;
+    }
+    .toolbar button {
+      background: #444;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      margin: 5px;
+      cursor: pointer;
+    }
+    .tabs, .editor-container {
+      display: none;
+    }
+    .tabs.active, .editor-container.active {
+      display: block;
+    }
+    .tab-buttons {
+      display: flex;
+      background: #222;
+    }
+    .tab-buttons button {
+      flex: 1;
+      padding: 10px;
+      background: #333;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    .tab-buttons button.active {
+      background: #111;
+    }
+    textarea {
+      width: 100%;
+      height: 35vh;
+      font-family: monospace;
+      font-size: 14px;
+      padding: 10px;
+      border: none;
+      resize: none;
+      outline: none;
+    }
+    iframe {
+      flex: 1;
+      border: none;
+    }
+    .color-generator {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-left: 10px;
+    }
+    input[type="color"] {
+      width: 40px;
+      height: 30px;
+      border: none;
+      cursor: pointer;
+    }
+    .color-code {
+      font-weight: bold;
+      background: white;
+      color: black;
+      padding: 4px 8px;
+      border-radius: 4px;
+      user-select: all;
+    }
+    .fullscreen .preview {
+      display: none;
+    }
+    .fullscreen textarea {
+      height: calc(100vh - 100px);
+    }
+    .vista-full .tabs,
+    .vista-full #modoTodoEnUno,
+    .vista-full .toolbar {
+      display: none !important;
+    }
+    .vista-full #preview {
+      flex: 1;
+      height: 100vh;
+      width: 100vw;
+    }
+    /* NUEVO: pestaña herramientas */
+    #toolsTab {
+      display: none;
+      padding: 10px;
+      background: #111;
+      color: white;
+      height: 35vh;
+      overflow-y: auto;
+    }
+    #toolsTab.active {
+      display: block;
+    }
+    #toolsTab label, #toolsTab input, #toolsTab select, #toolsTab button {
+      margin: 5px 0;
+      display: block;
+      width: 100%;
+      font-size: 14px;
+    }
+    #toolsTab input[type="text"], #toolsTab select {
+      padding: 5px;
+    }
+    #toolsTab button {
+      width: auto;
+      padding: 6px 12px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-    <h2>Ingrese su código HTML</h2>
-    <textarea id="htmlCode" placeholder="Escriba su código HTML aquí..."></textarea>
-    <br>
-    <button onclick="openPreview()">Vista Previa</button><h3>Colores detectados</h3>
-<div class="color-container" id="colorContainer"></div>
-<input type="color" id="colorPicker" class="color-picker" onchange="changeColor(this.value)">
 
-<script>
-    let selectedColor = "";
+  <div class="toolbar">
+    <div>
+      Editor HTML
+      <span class="color-generator">
+        <input type="color" id="colorPicker" onchange="actualizarColor()" value="#000000" />
+        <span class="color-code" id="colorCode">#000000</span>
+        <button onclick="copiarColor()">Copiar código</button>
+      </span>
+    </div>
+    <div>
+      <button onclick="cambiarModo()">Cambiar a <span id="modoTexto">Todo en uno</span></button>
+      <button onclick="formatear()">Formatear</button>
+      <button onclick="pantallaCompleta()" id="btnPantalla">Pantalla completa</button>
+      <button onclick="vistaCompleta()" id="btnVista">Vista previa completa</button>
+      <button onclick="abrirToolsTab()">Herramientas</button>
+    </div>
+  </div>
 
-    function openPreview() {
-        let code = document.getElementById("htmlCode").value;
-        let previewWindow = window.open("", "Vista Previa", "width=800,height=600");
-        previewWindow.document.open();
-        previewWindow.document.write(code);
-        previewWindow.document.close();
-        detectColors(code);
+  <!-- Modo pestañas -->
+  <div id="modoAvanzado" class="tabs active">
+    <div class="tab-buttons">
+      <button class="tab-btn active" onclick="mostrar('html')">HTML</button>
+      <button class="tab-btn" onclick="mostrar('css')">CSS</button>
+      <button class="tab-btn" onclick="mostrar('js')">JS</button>
+    </div>
+    <div id="html" class="editor-container active">
+      <textarea id="htmlCode" oninput="actualizarVista()"><h1 style="color:#000000">Hola mundo</h1></textarea>
+    </div>
+    <div id="css" class="editor-container">
+      <textarea id="cssCode" oninput="actualizarVista()">body { font-family: sans-serif; }</textarea>
+    </div>
+    <div id="js" class="editor-container">
+      <textarea id="jsCode" oninput="actualizarVista()">console.log("Hola desde JS");</textarea>
+    </div>
+  </div>
+
+  <!-- Modo todo en uno -->
+  <div id="modoTodoEnUno" class="tabs">
+    <textarea id="todoCode" oninput="actualizarVista()">
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    h1 { color: #000000; }
+  </style>
+</head>
+<body>
+  <h1>Hola todo en uno</h1>
+  <script>
+    console.log("JS embebido funcionando");
+  </script>
+</body>
+</html>
+    </textarea>
+  </div>
+
+  <!-- NUEVO: pestaña herramientas -->
+  <div id="toolsTab">
+    <h3>Generador de código</h3>
+    <label for="tipoElemento">Tipo de elemento:</label>
+    <select id="tipoElemento" onchange="actualizarFormulario()">
+      <option value="">--Selecciona--</option>
+      <option value="boton">Botón</option>
+      <option value="iframe">Iframe</option>
+      <option value="imagen">Imagen</option>
+      <option value="link">Abrir URL</option>
+    </select>
+
+    <div id="formBoton" style="display:none;">
+      <label>Texto del botón:</label>
+      <input type="text" id="btnTexto" placeholder="Texto del botón" />
+      <label>Color de fondo:</label>
+      <input type="color" id="btnColor" value="#008CBA" />
+      <label>Ancho CSS (ej: 100px o 50%):</label>
+      <input type="text" id="btnAncho" placeholder="Ej: 100px o 50%" />
+      <label>Alto CSS (ej: 40px):</label>
+      <input type="text" id="btnAlto" placeholder="Ej: 40px" />
+    </div>
+
+    <div id="formIframe" style="display:none;">
+      <label>URL del iframe:</label>
+      <input type="text" id="iframeUrl" placeholder="https://ejemplo.com" />
+      <label>Ancho CSS:</label>
+      <input type="text" id="iframeAncho" placeholder="Ej: 100%, 600px" />
+      <label>Alto CSS:</label>
+      <input type="text" id="iframeAlto" placeholder="Ej: 400px" />
+    </div>
+
+    <div id="formImagen" style="display:none;">
+      <label>URL de la imagen:</label>
+      <input type="text" id="imgUrl" placeholder="https://ejemplo.com/imagen.jpg" />
+      <label>Ancho CSS:</label>
+      <input type="text" id="imgAncho" placeholder="Ej: 100%, 300px" />
+      <label>Alto CSS:</label>
+      <input type="text" id="imgAlto" placeholder="Ej: 200px" />
+    </div>
+
+    <div id="formLink" style="display:none;">
+      <label>Texto del enlace:</label>
+      <input type="text" id="linkTexto" placeholder="Texto del enlace" />
+      <label>URL del enlace:</label>
+      <input type="text" id="linkUrl" placeholder="https://ejemplo.com" />
+      <label>Abrir en nueva pestaña:</label>
+      <select id="linkTarget">
+        <option value="_self">Misma pestaña</option>
+        <option value="_blank" selected>Nueva pestaña</option>
+      </select>
+    </div>
+
+    <button onclick="generarCodigo()">Generar código</button>
+    <textarea id="codigoGenerado" readonly style="width:100%;height:100px;margin-top:10px;font-family: monospace;"></textarea>
+    <button onclick="copiarCodigoGenerado()">Copiar código</button>
+    <button onclick="cerrarToolsTab()" style="background:#a00;color:#fff;margin-top:10px;">Cerrar</button>
+  </div>
+
+  <iframe id="preview" class="preview"></iframe>
+
+  <script>
+    let modoAvanzado = true;
+    let pantallaLlena = false;
+
+    function cambiarModo() {
+      modoAvanzado = !modoAvanzado;
+      document.getElementById('modoAvanzado').classList.toggle('active', modoAvanzado);
+      document.getElementById('modoTodoEnUno').classList.toggle('active', !modoAvanzado);
+      document.getElementById('modoTexto').innerText = modoAvanzado ? "Todo en uno" : "Avanzado";
+      actualizarVista();
     }
 
-    function detectColors(code) {
-        let colorContainer = document.getElementById("colorContainer");
-        colorContainer.innerHTML = "";
-        let colorRegex = /#([0-9A-Fa-f]{3,6})/g;
-        let colors = [...new Set(code.match(colorRegex))];
-        colors.forEach(color => {
-            let colorBox = document.createElement("div");
-            colorBox.className = "color-box";
-            colorBox.style.backgroundColor = color;
-            colorBox.onclick = function () {
-                selectedColor = color;
-                document.getElementById("colorPicker").click();
-            };
-            colorContainer.appendChild(colorBox);
-        });
+    function mostrar(tab) {
+      document.querySelectorAll('.editor-container').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(tab).classList.add('active');
+      event.target.classList.add('active');
     }
 
-    function changeColor(newColor) {
-        if (selectedColor) {
-            let htmlCode = document.getElementById("htmlCode").value;
-            document.getElementById("htmlCode").value = htmlCode.replaceAll(selectedColor, newColor);
-        }
+    function actualizarVista() {
+      let code = '';
+      if (modoAvanzado) {
+        const html = document.getElementById('htmlCode').value;
+        const css = document.getElementById('cssCode').value;
+        const js = document.getElementById('jsCode').value;
+        code = `
+<!DOCTYPE html>
+<html>
+<head><style>${css}</style></head>
+<body>
+${html}
+<script>${js}<\/script>
+</body>
+</html>`;
+      } else {
+        code = document.getElementById('todoCode').value;
+      }
+      document.getElementById('preview').srcdoc = code;
     }
-</script>
+
+    function formatear() {
+      const ids = modoAvanzado ? ['htmlCode', 'cssCode', 'jsCode'] : ['todoCode'];
+      ids.forEach(id => {
+        const el = document.getElementById(id);
+        el.value = el.value
+          .replace(/></g, '>\n<')
+          .replace(/^\s+/gm, '')
+          .replace(/\n{2,}/g, '\n');
+      });
+      actualizarVista();
+    }
+
+    function actualizarColor() {
+      const color = document.getElementById('colorPicker').value;
+      document.getElementById('colorCode').innerText = color;
+    }
+
+    function copiarColor() {
+      const code = document.getElementById('colorCode').innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        alert("Código copiado: " + code);
+      });
+    }
+
+    function pantallaCompleta() {
+      pantallaLlena = !pantallaLlena;
+      document.body.classList.toggle('fullscreen', pantallaLlena);
+      const btn = document.getElementById('btnPantalla');
+      btn.innerText = pantallaLlena ? "Salir pantalla completa" : "Pantalla completa";
+    }
+
+    function vistaCompleta() {
+      const body = document.body;
+      const btn = document.getElementById('btnVista');
+      const activando = !body.classList.contains('vista-full');
+      body.classList.toggle('vista-full', activando);
+      btn.innerText = activando ? "Salir vista previa" : "Vista previa completa";
+    }
+
+    // NUEVO: abrir pestaña herramientas
+    function abrirToolsTab() {
+      document.getElementById('toolsTab').classList.add('active');
+      // Ocultar editor si quieres, o dejar visible (a gusto)
+    }
+    function cerrarToolsTab() {
+      document.getElementById('toolsTab').classList.remove('active');
+    }
+
+    function actualizarFormulario() {
+      const tipo = document.getElementById('tipoElemento').value;
+      // Ocultar todos
+      ['formBoton','formIframe','formImagen','formLink'].forEach(id => {
+        document.getElementById(id).style.display = 'none';
+      });
+      if(tipo === 'boton') document.getElementById('formBoton').style.display = 'block';
+      else if(tipo === 'iframe') document.getElementById('formIframe').style.display = 'block';
+      else if(tipo === 'imagen') document.getElementById('formImagen').style.display = 'block';
+      else if(tipo === 'link') document.getElementById('formLink').style.display = 'block';
+    }
+
+    function generarCodigo() {
+      const tipo = document.getElementById('tipoElemento').value;
+      let codigo = '';
+      if (tipo === 'boton') {
+        const texto = document.getElementById('btnTexto').value || 'Botón';
+        const color = document.getElementById('btnColor').value || '#008CBA';
+        const ancho = document.getElementById('btnAncho').value || 'auto';
+        const alto = document.getElementById('btnAlto').value || 'auto';
+        codigo = `<button style="background-color:${color}; width:${ancho}; height:${alto}; color:white; border:none; cursor:pointer;">${texto}</button>`;
+      } else if (tipo === 'iframe') {
+        const url = document.getElementById('iframeUrl').value || 'https://example.com';
+        const ancho = document.getElementById('iframeAncho').value || '100%';
+        const alto = document.getElementById('iframeAlto').value || '400px';
+        codigo = `<iframe src="${url}" style="width:${ancho}; height:${alto}; border:none;"></iframe>`;
+      } else if (tipo === 'imagen') {
+        const url = document.getElementById('imgUrl').value || 'https://via.placeholder.com/150';
+        const ancho = document.getElementById('imgAncho').value || 'auto';
+        const alto = document.getElementById('imgAlto').value || 'auto';
+        codigo = `<img src="${url}" style="width:${ancho}; height:${alto};" alt="Imagen">`;
+      } else if (tipo === 'link') {
+        const texto = document.getElementById('linkTexto').value || 'Enlace';
+        const url = document.getElementById('linkUrl').value || '#';
+        const target = document.getElementById('linkTarget').value;
+        codigo = `<a href="${url}" target="${target}">${texto}</a>`;
+      } else {
+        codigo = '<!-- Selecciona un tipo válido -->';
+      }
+      document.getElementById('codigoGenerado').value = codigo;
+    }
+
+    function copiarCodigoGenerado() {
+      const codigo = document.getElementById('codigoGenerado').value;
+      if (!codigo) return alert('No hay código para copiar.');
+      navigator.clipboard.writeText(codigo).then(() => {
+        alert('Código copiado al portapapeles.');
+      });
+    }
+
+    window.onload = actualizarVista;
+  </script>
 
 </body>
 </html>
